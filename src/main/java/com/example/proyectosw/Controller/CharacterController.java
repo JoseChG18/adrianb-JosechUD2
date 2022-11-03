@@ -1,8 +1,8 @@
 package com.example.proyectosw.Controller;
 
+import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Character;
 import com.example.proyectosw.model.Planet;
-import com.example.proyectosw.model.ResponseCharacter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -16,14 +16,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CharacterController {
-    private final String url = "https://swapi.dev/api/people/?search=";
+    private Conexion c;
     private List<Character> characters;
     private List<Character> Json;
 
@@ -31,61 +34,26 @@ public class CharacterController {
      * Metodo que hace la llamada a la API.
      * @param name
      */
-    public void setCharacters(String name) {
+    public void showCharacter(String name) {
         try {
-            URL jsonURL = new URL(url + name + "&format=json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            ResponseCharacter response = objectMapper.readValue(jsonURL, ResponseCharacter.class);
-            Json = response.getResults();
-            characters = response.getResults();
-            characters = sortList(characters);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+            c = new Conexion();
+            c.openConnection();
+            if (name.equals("")){
+                Statement stm = c.c.createStatement();
+                ResultSet rst = stm.executeQuery("SELECT * FROM PERSONAJES");
+            }else {
+                PreparedStatement pstm = c.c.prepareStatement("SELECT * FROM PERSONAJES WHERE NOMBRE LIKE ?");
+                pstm.setString(1,"%"+name+"%");
 
-    /**
-     * Metodo para hacer llamada a la API y obtener los nombres de planetas.
-     */
-    public void changeHomeworld() {
-        List<String> list = new ArrayList<String>();
-        int cont = 0;
-        for (Character pj : characters) {
-            list.add(cont, pj.getHomeworld());
-            cont++;
-        }
-        list = list.stream().distinct().collect(Collectors.toList());
+                ResultSet rst = pstm.executeQuery();
 
-        if (list.size() == 1) {
-            try {
-                URL jsonURL = new URL(list.get(0) + "?format=json");
-                ObjectMapper objectMapper = new ObjectMapper();
-                Planet pl = objectMapper.readValue(jsonURL, Planet.class);
-                for (Character pj : characters) {
-                    pj.setHomeworld(pl.getName());
+                while(rst.next()){
+                    System.out.println("NOMBRE"+rst.getString(1));
                 }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
             }
-        } else {
-            try {
-                List<Planet> planets = new ArrayList<>();
-                for (int i = 0; i < list.size(); i++) {
-                    URL jsonURL = new URL(list.get(i) + "?format=json");
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    Planet pl = objectMapper.readValue(jsonURL, Planet.class);
-                    planets.add(pl);
-                }
-                for (Planet pl : planets) {
-                    for (Character pj : characters) {
-                        if (pj.getHomeworld().equals(pl.getUrl())) {
-                            pj.setHomeworld(pl.getName());
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 

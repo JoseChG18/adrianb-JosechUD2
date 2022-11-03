@@ -29,7 +29,7 @@ public class SpeciesController {
      * Metodo que hace la llamada a la API.
      * @param name
      */
-    public void setSpecies(String name) {
+    /**public void setSpecies(String name) {
         try {
             URL jsonURL = new URL(url + name + "&format=json");
             ObjectMapper objectMapper = new ObjectMapper();
@@ -40,7 +40,7 @@ public class SpeciesController {
             System.out.println(e.getMessage());
         }
     }
-    /**
+
      * Metodo para hacer llamada a la API y obtener los nombres de planetas.
      */
     public void changeHomeworld() {

@@ -58,6 +58,8 @@ public class Main extends Application {
         try {
             String textUser = user.getText();
             String textPass = password.getText();
+            textUser = "admin";
+            textPass = "renaido";
             AppProperties ap = null;
             String user = ap.getProp(AppProperties.USUARIO);
             String pass = ap.getProp(AppProperties.CONTRASEÑA);

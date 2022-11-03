@@ -35,7 +35,7 @@ public class FilmController {
      * Metodo que hace la llamada a la API.
      * @param name
      */
-    public void setFilms(String name) {
+    /**public void setFilms(String name) {
         try {
             URL jsonURL = new URL(url + name + "&format=json");
             ObjectMapper objectMapper = new ObjectMapper();
@@ -47,7 +47,7 @@ public class FilmController {
             System.out.println(e.getMessage());
         }
     }
-    /**
+
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
      */

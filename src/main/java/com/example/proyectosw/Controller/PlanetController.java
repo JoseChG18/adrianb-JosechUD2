@@ -1,8 +1,6 @@
 package com.example.proyectosw.Controller;
 
-import com.example.proyectosw.model.Character;
 import com.example.proyectosw.model.Planet;
-import com.example.proyectosw.model.ResponsePlanet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -24,7 +22,7 @@ public class PlanetController {
      * Metodo que hace la llamada a la API.
      * @param name
      */
-    public void setPlanets(String name) {
+    /**public void setPlanets(String name) {
         try {
             URL jsonURL = new URL(url + name + "&format=json");
             ObjectMapper objectMapper = new ObjectMapper();
@@ -35,7 +33,7 @@ public class PlanetController {
             System.out.println(e.getMessage());
         }
     }
-    /**
+
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
      */

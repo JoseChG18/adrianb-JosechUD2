@@ -55,17 +55,27 @@ public class MainController implements Initializable {
     /**
      * Evento para buscar dandole al Enter.
      * @param keyEvent
-     */
+    */
     public void pressEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             accionSearch(new ActionEvent());
         }
     }
 
+    public void accionSearch(ActionEvent actionEvent) {
+
+        try{
+            CharacterController cc = new CharacterController();
+            cc.showCharacter(getName());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * Evento que hace la Llamada a la API.
      * @param actionEvent
-     */
+
     public void accionSearch(ActionEvent actionEvent) {
         try {
             String option = getComboBox();
@@ -116,11 +126,11 @@ public class MainController implements Initializable {
         }
 
     }
-
+     */
     /**
      * Evento que se ejecuta para guardar los resultados en cada tipo de fichero.
      * @param actionEvent
-     */
+
     public void saveFiles(ActionEvent actionEvent) {
         boolean filesSaved = false;
         String archivo = "";
@@ -206,6 +216,6 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 
 }

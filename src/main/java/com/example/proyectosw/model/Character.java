@@ -47,10 +47,6 @@ public class Character implements Serializable {
         return homeworld;
     }
 
-    public void setHomeworld(String nameHomeworld) {
-        this.homeworld = nameHomeworld;
-    }
-
     public String getGender() {
         return gender;
     }

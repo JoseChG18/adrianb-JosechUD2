@@ -12,7 +12,7 @@ module com.example.proyectosw {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
     requires jbcrypt;
-
+    requires java.sql;
     opens com.example.proyectosw to javafx.fxml;
     exports com.example.proyectosw;
 

@@ -33,7 +33,7 @@ public class VehiclesController {
     /**
      * Metodo que hace la llamada a la API.
      * @param name
-     */
+
     public void setVehicles(String name) {
         try {
             URL jsonURL = new URL(url + name + "&format=json");
@@ -45,7 +45,7 @@ public class VehiclesController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable

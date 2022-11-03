@@ -34,7 +34,7 @@ public class StarshipController {
     /**
      * Metodo que hace la llamada a la API.
      * @param name
-     */
+
     public void setStarships(String name) {
         try {
             URL jsonURL = new URL(url + name + "&format=json");
@@ -46,7 +46,7 @@ public class StarshipController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
