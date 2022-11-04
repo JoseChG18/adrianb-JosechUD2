@@ -19,7 +19,7 @@
                 </columns>
             </TableView>
             <ComboBox fx:id="cbElection" layoutX="225.0" layoutY="34.0" prefWidth="150.0" promptText="-- Select a Status --" />
-            <Button fx:id="btnSave" layoutX="312.0" layoutY="205.0" mnemonicParsing="false"  text="Save" />
+            <Button fx:id="btnSave" layoutX="312.0" layoutY="205.0" mnemonicParsing="false" onAction="#saveFiles" text="Save" />
         </children>
     </AnchorPane>
 </VBox>

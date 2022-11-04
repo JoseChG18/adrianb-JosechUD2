@@ -2,7 +2,6 @@ package com.example.proyectosw.Controller;
 
 import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Character;
-import com.example.proyectosw.model.Planet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -15,7 +14,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,35 +21,54 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CharacterController {
     private Conexion c;
-    private List<Character> characters;
+    private List<Character> characters = new ArrayList();
     private List<Character> Json;
 
     /**
      * Metodo que hace la llamada a la API.
+     *
      * @param name
      */
     public void showCharacter(String name) {
         try {
             c = new Conexion();
             c.openConnection();
-            if (name.equals("")){
+            if (name.equals("")) {
                 Statement stm = c.c.createStatement();
-                ResultSet rst = stm.executeQuery("SELECT * FROM PERSONAJES");
-            }else {
-                PreparedStatement pstm = c.c.prepareStatement("SELECT * FROM PERSONAJES WHERE NOMBRE LIKE ?");
-                pstm.setString(1,"%"+name+"%");
+                ResultSet rst = stm.executeQuery(
+                        "SELECT C.ID,C.NAME,C.GENDER,C.SKIN_COLOR,P.NAME AS HOMEWORLD,C.HAIR_COLOR " +
+                                "FROM CHARACTERS AS C JOIN PLANETS AS P ON C.HOMEWORLD = P.ID");
+                while (rst.next()) {
+                    characters.add(new Character(
+                            rst.getInt("ID"),
+                            rst.getString("NAME"),
+                            rst.getString("GENDER"),
+                            rst.getString("SKIN_COLOR"),
+                            rst.getString("HOMEWORLD"),
+                            rst.getString("HAIR_COLOR")));
+                }
+            } else {
+                PreparedStatement pstm = c.c.prepareStatement(
+                        "SELECT C.ID,C.NAME,C.GENDER,C.SKIN_COLOR,P.NAME AS HOMEWORLD,C.HAIR_COLOR " +
+                                "FROM CHARACTERS AS C JOIN PLANETS AS P ON C.HOMEWORLD = P.ID WHERE C.NAME LIKE ? ");
+                pstm.setString(1, "%" + name + "%");
 
                 ResultSet rst = pstm.executeQuery();
 
-                while(rst.next()){
-                    System.out.println("NOMBRE"+rst.getString(1));
+                while (rst.next()) {
+                    characters.add(new Character(
+                            rst.getInt("ID"),
+                            rst.getString("NAME"),
+                            rst.getString("GENDER"),
+                            rst.getString("SKIN_COLOR"),
+                            rst.getString("HOMEWORLD"),
+                            rst.getString("HAIR_COLOR")));
                 }
             }
-
+            c.closeConnection();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -59,19 +76,22 @@ public class CharacterController {
 
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
+     *
      * @param searchTable
      */
     public void fillTable(TableView searchTable) {
         if (characters.size() > 0) {
             searchTable.getColumns().clear();
+            TableColumn<Character, Integer> col_Id = new TableColumn<>("ID");
             TableColumn<Character, String> col_Name = new TableColumn<>("Name");
             TableColumn<Character, String> col_Gender = new TableColumn<>("Gender");
             TableColumn<Character, String> col_SkinColor = new TableColumn<>("Skin color");
             TableColumn<Character, String> col_Homeworld = new TableColumn<>("Homeworld");
             TableColumn<Character, String> col_HairColor = new TableColumn<>("Hair Color");
 
-            searchTable.getColumns().addAll(col_Name, col_Gender, col_SkinColor, col_Homeworld, col_HairColor);
+            searchTable.getColumns().addAll(col_Id, col_Name, col_Gender, col_SkinColor, col_Homeworld, col_HairColor);
 
+            col_Id.setCellValueFactory(new PropertyValueFactory<>("id"));
             col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
             col_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
             col_SkinColor.setCellValueFactory(new PropertyValueFactory<>("skinColor"));
@@ -89,13 +109,14 @@ public class CharacterController {
 
     /**
      * Metodo que hace el guardado en fichero JSON.
+     *
      * @param url
      */
     public void saveJson(String url) {
         try {
             File arc = new File(url + ".json");
             ObjectMapper om = new ObjectMapper();
-            om.writeValue(arc, Json);
+            om.writeValue(arc, characters);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -104,6 +125,7 @@ public class CharacterController {
 
     /**
      * Metodo que hace el guardado en fichero XML.
+     *
      * @param url
      */
     public void saveXml(String url) {
@@ -111,7 +133,7 @@ public class CharacterController {
             File arc = new File(url + ".xml");
             XmlMapper xmlMapper = new XmlMapper();
 
-            xmlMapper.writeValue(arc, Json);
+            xmlMapper.writeValue(arc, characters);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -120,12 +142,13 @@ public class CharacterController {
 
     /**
      * Metodo que hace el guardado en fichero Binario.
+     *
      * @param url
      */
     public void saveBinario(String url) {
         File arc = new File(url + ".bin");
         try (ObjectOutputStream escritor = new ObjectOutputStream(new FileOutputStream(arc))) {
-            for (Character pj : Json) {
+            for (Character pj : characters) {
                 escritor.writeObject(pj);
             }
         } catch (IOException ex) {
@@ -135,6 +158,7 @@ public class CharacterController {
 
     /**
      * Metodo que hace el guardado en fichero CSV/TXT.
+     *
      * @param url
      */
     public void saveTxt(String url) {
@@ -157,6 +181,7 @@ public class CharacterController {
 
     /**
      * Metodo que hace la ordenación del resultado de la API.
+     *
      * @param lista
      * @return List<Character>
      */

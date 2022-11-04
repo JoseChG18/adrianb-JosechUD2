@@ -40,53 +40,8 @@ public class SpeciesController {
             System.out.println(e.getMessage());
         }
     }
-
-     * Metodo para hacer llamada a la API y obtener los nombres de planetas.
      */
-    public void changeHomeworld() {
-        List<String> list = new ArrayList<>();
-        int cont = 0;
-        for (Species sp : species) {
-            if (sp.getHomeworld() != null) {
-                list.add(cont, sp.getHomeworld());
-                cont++;
-            }
-        }
 
-        list = list.stream().distinct().collect(Collectors.toList());
-
-        if (list.size() == 1) {
-            try {
-                URL jsonURL = new URL(list.get(0) + "?format=json");
-                ObjectMapper objectMapper = new ObjectMapper();
-                Planet pl = objectMapper.readValue(jsonURL, Planet.class);
-                for (Species pj : species) {
-                    pj.setHomeworld(pl.getName());
-                }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            try {
-                List<Planet> planets = new ArrayList<>();
-                for (int i = 0; i < list.size(); i++) {
-                    URL jsonURL = new URL(list.get(i) + "?format=json");
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    Planet pl = objectMapper.readValue(jsonURL, Planet.class);
-                    planets.add(pl);
-                }
-                for (Planet pl : planets) {
-                    for (Species sp : species) {
-                        if (sp.getHomeworld() != null && sp.getHomeworld().equals(pl.getUrl())) {
-                            sp.setHomeworld(pl.getName());
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable

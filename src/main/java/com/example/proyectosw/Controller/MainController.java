@@ -63,10 +63,28 @@ public class MainController implements Initializable {
     }
 
     public void accionSearch(ActionEvent actionEvent) {
+        try {
+            String option = getComboBox();
 
-        try{
-            CharacterController cc = new CharacterController();
-            cc.showCharacter(getName());
+            if (option != null) {
+                switch (option) {
+                    case "People":
+                        CharacterController cc = new CharacterController();
+                        cc.showCharacter(getName());
+                        cc.fillTable(searchTable);
+                        break;
+                    case "Planets":
+                        PlanetController pc = new PlanetController();
+                        pc.showPlanets(getName());
+                        pc.fillTable(searchTable);
+                        break;
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Status");
+                alert.setContentText("Select one status.");
+                alert.showAndWait();
+            }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -130,7 +148,7 @@ public class MainController implements Initializable {
     /**
      * Evento que se ejecuta para guardar los resultados en cada tipo de fichero.
      * @param actionEvent
-
+    */
     public void saveFiles(ActionEvent actionEvent) {
         boolean filesSaved = false;
         String archivo = "";
@@ -148,14 +166,11 @@ public class MainController implements Initializable {
                 switch (option) {
                     case "People":
                         CharacterController cc = new CharacterController();
-                        cc.setCharacters(name.getText());
+                        cc.showCharacter(getName());
                         cc.saveJson(archivo);
-                        cc.saveBinario(archivo);
-                        cc.saveXml(archivo);
-                        cc.saveTxt(archivo);
                         filesSaved = true;
                         break;
-                    case "Planets":
+                    /*case "Planets":
                         PlanetController pc = new PlanetController();
                         pc.setPlanets(name.getText());
                         pc.saveJson(archivo);
@@ -199,7 +214,7 @@ public class MainController implements Initializable {
                         ssc.saveXml(archivo);
                         ssc.saveTxt(archivo);
                         filesSaved = true;
-                        break;
+                        break;*/
                 }
                 if (filesSaved) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -216,6 +231,6 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }*/
+    }
 
 }

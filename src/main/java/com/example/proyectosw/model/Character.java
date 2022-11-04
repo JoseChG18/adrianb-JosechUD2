@@ -6,24 +6,55 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Character implements Serializable {
+    @JsonProperty("id")
+    private int id;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("birth_year")
-    private String birthYear;
     @JsonProperty("gender")
     private String gender;
     @JsonProperty("homeworld")
     private String homeworld;
     @JsonProperty("skin_color")
     private String skinColor;
+    @JsonProperty("hair_color")
+    private String hairColor;
+
+    public Character(int ID, String NAME, String GENDER, String SKIN_COLOR, String HOMEWORLD, String HAIR_COLOR){
+        this.id = ID;
+        this.name = NAME;
+        this.gender = GENDER;
+        this.skinColor = SKIN_COLOR;
+        this.homeworld = HOMEWORLD;
+        this.hairColor = HAIR_COLOR;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public String getHomeworld() {
+        return homeworld;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public String getSkinColor() {
+        return skinColor;
+    }
+    public String getHairColor() {
+        return hairColor;
+    }
+    /*
+    @JsonProperty("birth_year")
+    private String birthYear;
     @JsonProperty("height")
     private String height;
     @JsonProperty("mass")
     private String mass;
     @JsonProperty("vehicles")
     private List<String> vehicles;
-    @JsonProperty("hair_color")
-    private String hairColor;
     @JsonProperty("eye_color")
     private String eyeColor;
     @JsonProperty("species")
@@ -42,64 +73,35 @@ public class Character implements Serializable {
     public List<String> getFilms() {
         return films;
     }
-
-    public String getHomeworld() {
-        return homeworld;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public String getSkinColor() {
-        return skinColor;
-    }
-
     public String getEdited() {
         return edited;
     }
-
     public String getCreated() {
         return created;
     }
-
     public String getMass() {
         return mass;
     }
-
     public List<String> getVehicles() {
         return vehicles;
     }
-
     public String getUrl() {
         return url;
     }
-
-    public String getHairColor() {
-        return hairColor;
-    }
-
     public String getBirthYear() {
         return birthYear;
     }
-
     public String getEyeColor() {
         return eyeColor;
     }
-
     public List<Object> getSpecies() {
         return species;
     }
-
     public List<String> getStarships() {
         return starships;
     }
-
-    public String getName() {
-        return this.name;
-    }
-
     public String getHeight() {
         return height;
     }
+    */
 }

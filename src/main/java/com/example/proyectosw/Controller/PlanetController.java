@@ -1,5 +1,6 @@
 package com.example.proyectosw.Controller;
 
+import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Planet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,20 +9,56 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.io.*;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 public class PlanetController {
-    private final String url = "https://swapi.dev/api/planets/?search=";
-    private List<Planet> planets;
+    private Conexion c;
+    private List<Planet> planets = new ArrayList<>();
     /**
      * Metodo que hace la llamada a la API.
      * @param name
      */
+
+    public void showPlanets(String name){
+        try {
+            c = new Conexion();
+            c.openConnection();
+            if (name.equals("")) {
+                Statement stm = c.c.createStatement();
+                ResultSet rst = stm.executeQuery("SELECT * FROM PLANETS");
+                while (rst.next()) {
+                    planets.add(new Planet(
+                            rst.getInt("ID"),
+                            rst.getString("NAME"),
+                            rst.getString("TERRAIN"),
+                            rst.getString("GRAVITY"),
+                            rst.getString("CLIMATE"),
+                            rst.getString("POPULATION")));
+                }
+            }else {
+                PreparedStatement pstm = c.c.prepareStatement(
+                        "SELECT * FROM PLANETS WHERE NAME LIKE ? ");
+                pstm.setString(1, "%" + name + "%");
+
+                ResultSet rst = pstm.executeQuery();
+
+                while (rst.next()) {
+                    planets.add(new Planet(
+                            rst.getInt("ID"),
+                            rst.getString("NAME"),
+                            rst.getString("TERRAIN"),
+                            rst.getString("GRAVITY"),
+                            rst.getString("CLIMATE"),
+                            rst.getString("POPULATION")));
+                }
+            }
+            c.closeConnection();
+        }catch (SQLException ex){
+            System.out.println(ex);
+        }
+    }
     /**public void setPlanets(String name) {
         try {
             URL jsonURL = new URL(url + name + "&format=json");
@@ -40,19 +77,21 @@ public class PlanetController {
     public void fillTable(TableView searchTable) {
         if (planets.size() > 0) {
             searchTable.getColumns().clear();
+            TableColumn<Planet, Integer> col_Id = new TableColumn<>("ID");
             TableColumn<Planet, String> col_Name = new TableColumn<>("Name");
             TableColumn<Planet, String> col_Terrain = new TableColumn<>("Terrain");
             TableColumn<Planet, String> col_Gravity = new TableColumn<>("Gravity");
             TableColumn<Planet, String> col_Residents = new TableColumn<>("Climate");
             TableColumn<Planet, String> col_Population = new TableColumn<>("Population");
 
-            searchTable.getColumns().addAll(col_Name, col_Terrain, col_Gravity, col_Residents, col_Population);
+            searchTable.getColumns().addAll(col_Id, col_Name, col_Terrain, col_Gravity, col_Residents, col_Population);
 
-            col_Name.setCellValueFactory(new PropertyValueFactory("name"));
-            col_Terrain.setCellValueFactory(new PropertyValueFactory("terrain"));
-            col_Gravity.setCellValueFactory(new PropertyValueFactory("gravity"));
-            col_Residents.setCellValueFactory(new PropertyValueFactory("climate"));
-            col_Population.setCellValueFactory(new PropertyValueFactory("population"));
+            col_Id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            col_Terrain.setCellValueFactory(new PropertyValueFactory<>("terrain"));
+            col_Gravity.setCellValueFactory(new PropertyValueFactory<>("gravity"));
+            col_Residents.setCellValueFactory(new PropertyValueFactory<>("climate"));
+            col_Population.setCellValueFactory(new PropertyValueFactory<>("population"));
             searchTable.getItems().clear();
             searchTable.getItems().addAll(planets);
         } else {
