@@ -83,4 +83,77 @@ Insert into Films (TITLE, DIRECTOR, RELEASEDATE, PRODUCER) values ('The Empire S
 Insert into Films (TITLE, DIRECTOR, RELEASEDATE, PRODUCER) values ('Return of the Jedi','Richard Marquand','1983-05-25','Rick McCallum');
 
 
+drop table if exists SPECIES;
+CREATE TABLE IF NOT EXISTS SPECIES(
+ID INT PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(50),
+CLASSIFICATION VARCHAR(50),
+HOMEWORLD INT,
+LANGUAGE VARCHAR(100),
+AVERAGELIFESPAN varchar(50),
+
+foreign key(Homeworld) references Planets(id)
+);
+/*Inserciones en la tabla de Species*/
+Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Human','mammal',9,'Galactic Basic','120');
+Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Droid','artificial',NULL,'n/a','indefinite');
+Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Wookie','mammal',14,'Shyriiwook','400');
+/*Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Rodian','reptilian',23,'Galactic Basic','unknown');     No tenemos el planeta 23 en la base de datos aun*/
+/*Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Hutt','gastropod',24,'Huttese','1000');					No tenemos el planeta 24 en la base de datos aun*/
+/*Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Yoda\'s species','mammal',28,'Galactic basic','900');	No tenemos el planeta 28 en la base de datos aun*/
+/*Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Trandoshan','reptile',29,'Dosh','unknown');				No tenemos el planeta 29 en la base de datos aun*/
+/*Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Mon Calamari','amphibian',31,'Mon Calamarian','unknown');No tenemos el planeta 31 en la base de datos aun*/
+Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Ewok','mammal',7,'Ewokese','unknown');
+/*Insert into SPECIES (NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) values ('Sullustan','mammal',33,'Sullutese','unknown');          No tenemos el planeta 33 en la base de datos aun*/
+
+
+drop table if exists VEHICLES;
+CREATE TABLE IF NOT EXISTS VEHICLES(
+ID INT PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(50),
+MODEL VARCHAR(50),
+MANUFACTURER VARCHAR(100),
+COSTINCREDITS VARCHAR(100),
+LENGTH VARCHAR(50),
+PASSENGERS VARCHAR(50),
+CARGOCAPACITY VARCHAR(100),
+VEHICLECLASS VARCHAR(50)
+);
+
+/*Inserciones en la tabla de Vehicles*/
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('Sand Crawler','Digger Crawler','Corellia Mining Corporation','150000','36.8','30','50000','wheeled');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('T-16 skyhopper','T-16 skyhopper','Incom Corporation','14500','10.4','1','50','repulsorcraft');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('X-34 landspeeder','X-34 landspeeder','SoroSuub Corporation','10550','3.4','1','5','repulsorcraft');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('TIE/LN starfighter','Twin Ion Engine/Ln Starfighter','Sienar Fleet Systems','unknown','6.4','0','65','starfighter');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('Snowspeeder','t-47 airspeeder','Incom corporation','unknown','4.5','0','10','airspeeder');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('TIE bomber','TIE/sa bomber','Sienar Fleet Systems','unknown','7.8','0','none','space/planetary bomber');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('AT-AT','All Terrain Armored Transport','Kuat Drive Yards, Imperial Department of Military Research','unknown','20','40','1000','assault walker');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('AT-ST','All Terrain Scout Transport','Kuat Drive Yards, Imperial Department of Military Research','unknown','2','0','200','walker');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('Storm IV Twin-Pod cloud car','Storm IV Twin-Pod','Bespin Motors','75000','7','0','10','repulsorcraft');
+Insert into VEHICLES (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS) values ('Sail barge','Modified Luxury Sail Barge','Ubrikkian Industries Custom Vehicle Division','285000','30','500','2000000','sail barge');
+
+
+drop table if exists STARSHIPS;
+CREATE TABLE IF NOT EXISTS STARSHIPS(
+ID INT PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(50),
+MODEL VARCHAR(50),
+MANUFACTURER VARCHAR(100),
+COSTINCREDITS VARCHAR(100),
+LENGTH VARCHAR(50),
+CARGOCAPACITY VARCHAR(100),
+STARSHIPCLASS VARCHAR(50),
+HIPERDRIVERATING VARCHAR(50)
+);
+
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('CR90 corvette','CR90 corvette','Corellian Engineering Corporation','3500000','150','3000000','corvette','2.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('Star Destroyer','Imperial I-class Star Destroyer','Kuat Drive Yards','150000000','1.600','36000000','Star Destroyer','2.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('Sentinel-class landing craft','Sentinel-class landing craft','Sienar Fleet Systems, Cyngus Spaceworks','240000','38','180000','landing craft','1.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('Death Star','DS-1 Orbital Battle Station','Imperial Department of Military Research, Sienar Fleet Systems','1000000000000','120000','1000000000000','Deep Space Mobile Battlestation','4.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('Millennium Falcon','YT-1300 light freighte','Corellian Engineering Corporation','100000','34.37','100000','Light freighter','0.5');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('Y-wing','BTL Y-wing','Koensayr Manufacturing','134999','14','110','assault starfighter','1.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('X-wing','T-65 X-wing','Incom Corporation','149999','12.5','110','Starfighter','1.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('TIE Advanced x1','Twin Ion Engine Advanced x1','Sienar Fleet Systems','unknown','9.2','150','Starfighter','1.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('Executor','Executor-class star dreadnought','Kuat Drive Yards, Fondor Shipyards','1143350000','19000','250000000','Star dreadnought','2.0');
+Insert into STARSHIPS (NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING) values ('Rebel transport','GR-75 medium transport','Gallofree Yards, Inc.','unknown','90','19000000','Medium transport','4.0');
 
