@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class CharacterController {
-    private Conexion c;
     private List<Character> characters = new ArrayList();
     private List<Character> Json;
 
@@ -34,7 +33,7 @@ public class CharacterController {
      */
     public void showCharacter(String name) {
         try {
-            c = new Conexion();
+            Conexion c = new Conexion();
             c.openConnection();
             if (name.equals("")) {
                 Statement stm = c.c.createStatement();
@@ -124,62 +123,6 @@ public class CharacterController {
     }
 
     /**
-     * Metodo que hace el guardado en fichero XML.
-     *
-     * @param url
-     */
-    public void saveXml(String url) {
-        try {
-            File arc = new File(url + ".xml");
-            XmlMapper xmlMapper = new XmlMapper();
-
-            xmlMapper.writeValue(arc, characters);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Metodo que hace el guardado en fichero Binario.
-     *
-     * @param url
-     */
-    public void saveBinario(String url) {
-        File arc = new File(url + ".bin");
-        try (ObjectOutputStream escritor = new ObjectOutputStream(new FileOutputStream(arc))) {
-            for (Character pj : characters) {
-                escritor.writeObject(pj);
-            }
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
-    /**
-     * Metodo que hace el guardado en fichero CSV/TXT.
-     *
-     * @param url
-     */
-    public void saveTxt(String url) {
-        try {
-            JsonNode jsonTree = new ObjectMapper().readTree(new File(url + ".json"));
-            CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
-            JsonNode firstObject = jsonTree.elements().next();
-            firstObject.fieldNames().forEachRemaining(fieldName -> {
-                csvSchemaBuilder.addColumn(fieldName);
-            });
-            CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
-            CsvMapper csvMapper = new CsvMapper();
-            csvMapper.writerFor(JsonNode.class)
-                    .with(csvSchema)
-                    .writeValue(new File(url + ".txt"), jsonTree);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
      * Metodo que hace la ordenación del resultado de la API.
      *
      * @param lista
@@ -203,5 +146,61 @@ public class CharacterController {
         }
         return orderedList;
     }
+
+    /**
+     * Metodo que hace el guardado en fichero XML.
+     *
+     * @param url
+
+    public void saveXml(String url) {
+    try {
+    File arc = new File(url + ".xml");
+    XmlMapper xmlMapper = new XmlMapper();
+
+    xmlMapper.writeValue(arc, characters);
+
+    } catch (Exception e) {
+    System.out.println(e.getMessage());
+    }
+    }*/
+
+    /**
+     * Metodo que hace el guardado en fichero Binario.
+     *
+     * @param url
+
+    public void saveBinario(String url) {
+    File arc = new File(url + ".bin");
+    try (ObjectOutputStream escritor = new ObjectOutputStream(new FileOutputStream(arc))) {
+    for (Character pj : characters) {
+    escritor.writeObject(pj);
+    }
+    } catch (IOException ex) {
+    System.err.println(ex.getMessage());
+    }
+    }*/
+
+    /**
+     * Metodo que hace el guardado en fichero CSV/TXT.
+     *
+     * @param url
+
+    public void saveTxt(String url) {
+    try {
+    JsonNode jsonTree = new ObjectMapper().readTree(new File(url + ".json"));
+    CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
+    JsonNode firstObject = jsonTree.elements().next();
+    firstObject.fieldNames().forEachRemaining(fieldName -> {
+    csvSchemaBuilder.addColumn(fieldName);
+    });
+    CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
+    CsvMapper csvMapper = new CsvMapper();
+    csvMapper.writerFor(JsonNode.class)
+    .with(csvSchema)
+    .writeValue(new File(url + ".txt"), jsonTree);
+    } catch (IOException e) {
+    System.out.println(e.getMessage());
+    }
+    }*/
 }
 

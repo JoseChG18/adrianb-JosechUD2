@@ -78,6 +78,26 @@ public class MainController implements Initializable {
                         pc.showPlanets(getName());
                         pc.fillTable(searchTable);
                         break;
+                    case "Films":
+                        FilmController fc = new FilmController();
+                        fc.showFilms(getName());
+                        fc.fillTable(searchTable);
+                        break;
+                    case "Species":
+                        SpeciesController sc = new SpeciesController();
+                        sc.showSpecies(getName());
+                        sc.fillTable(searchTable);
+                        break;
+                    case "Vehicles":
+                        VehiclesController vc = new VehiclesController();
+                        vc.showVehicles(getName());
+                        vc.fillTable(searchTable);
+                        break;
+                    case "Starships":
+                        StarshipController ssc = new StarshipController();
+                        ssc.showStarships(getName());
+                        ssc.fillTable(searchTable);
+                        break;
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -170,51 +190,37 @@ public class MainController implements Initializable {
                         cc.saveJson(archivo);
                         filesSaved = true;
                         break;
-                    /*case "Planets":
+                    case "Planets":
                         PlanetController pc = new PlanetController();
-                        pc.setPlanets(name.getText());
+                        pc.showPlanets(name.getText());
                         pc.saveJson(archivo);
-                        pc.saveBinario(archivo);
-                        pc.saveXml(archivo);
-                        pc.saveTxt(archivo);
                         filesSaved = true;
                         break;
                     case "Films":
                         FilmController fc = new FilmController();
-                        fc.setFilms(name.getText());
+                        fc.showFilms(name.getText());
                         fc.saveJson(archivo);
-                        fc.saveBinario(archivo);
-                        fc.saveXml(archivo);
-                        fc.saveTxt(archivo);
                         filesSaved = true;
                         break;
                     case "Species":
                         SpeciesController sc = new SpeciesController();
-                        sc.setSpecies(name.getText());
+                        sc.showSpecies(name.getText());
                         sc.saveJson(archivo);
-                        sc.saveBinario(archivo);
-                        sc.saveXml(archivo);
-                        sc.saveTxt(archivo);
                         filesSaved = true;
                         break;
+
                     case "Vehicles":
                         VehiclesController vc = new VehiclesController();
-                        vc.setVehicles(name.getText());
+                        vc.showVehicles(name.getText());
                         vc.saveJson(archivo);
-                        vc.saveBinario(archivo);
-                        vc.saveXml(archivo);
-                        vc.saveTxt(archivo);
                         filesSaved = true;
                         break;
                     case "Starships":
                         StarshipController ssc = new StarshipController();
-                        ssc.setStarships(name.getText());
+                        ssc.showStarships(name.getText());
                         ssc.saveJson(archivo);
-                        ssc.saveBinario(archivo);
-                        ssc.saveXml(archivo);
-                        ssc.saveTxt(archivo);
                         filesSaved = true;
-                        break;*/
+                        break;
                 }
                 if (filesSaved) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);

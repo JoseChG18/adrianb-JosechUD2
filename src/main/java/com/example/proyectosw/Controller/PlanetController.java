@@ -14,7 +14,6 @@ import java.sql.*;
 import java.util.*;
 
 public class PlanetController {
-    private Conexion c;
     private List<Planet> planets = new ArrayList<>();
     /**
      * Metodo que hace la llamada a la API.
@@ -23,7 +22,7 @@ public class PlanetController {
 
     public void showPlanets(String name){
         try {
-            c = new Conexion();
+            Conexion c = new Conexion();
             c.openConnection();
             if (name.equals("")) {
                 Statement stm = c.c.createStatement();
@@ -115,54 +114,7 @@ public class PlanetController {
             System.out.println(e.getMessage());
         }
     }
-    /**
-     * Metodo que hace el guardado en fichero XML.
-     * @param url
-     */
-    public void saveXml(String url) {
-        try {
-            File arc = new File(url + ".xml");
-            XmlMapper xmlMapper = new XmlMapper();
-            xmlMapper.writeValue(arc, planets);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    /**
-     * Metodo que hace el guardado en fichero Binario.
-     * @param url
-     */
-    public void saveBinario(String url) {
-        File arc = new File(url + ".bin");
-        try (ObjectOutputStream escritor = new ObjectOutputStream(new FileOutputStream(arc))) {
-            for (Planet pl : planets) {
-                escritor.writeObject(pl);
-            }
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-    /**
-     * Metodo que hace el guardado en fichero CSV/TXT.
-     * @param url
-     */
-    public void saveTxt(String url) {
-        try {
-            JsonNode jsonTree = new ObjectMapper().readTree(new File(url + ".json"));
-            CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
-            JsonNode firstObject = jsonTree.elements().next();
-            firstObject.fieldNames().forEachRemaining(fieldName -> {
-                csvSchemaBuilder.addColumn(fieldName);
-            });
-            CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
-            CsvMapper csvMapper = new CsvMapper();
-            csvMapper.writerFor(JsonNode.class)
-                    .with(csvSchema)
-                    .writeValue(new File(url + ".txt"), jsonTree);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+
     /**
      * Metodo que hace la ordenación del resultado de la API.
      * @param lista
@@ -186,4 +138,53 @@ public class PlanetController {
         }
         return orderedList;
     }
+
+    /**
+     * Metodo que hace el guardado en fichero XML.
+     * @param url
+
+    public void saveXml(String url) {
+    try {
+    File arc = new File(url + ".xml");
+    XmlMapper xmlMapper = new XmlMapper();
+    xmlMapper.writeValue(arc, planets);
+    } catch (Exception e) {
+    System.out.println(e.getMessage());
+    }
+    }*/
+    /**
+     * Metodo que hace el guardado en fichero Binario.
+     * @param url
+
+    public void saveBinario(String url) {
+    File arc = new File(url + ".bin");
+    try (ObjectOutputStream escritor = new ObjectOutputStream(new FileOutputStream(arc))) {
+    for (Planet pl : planets) {
+    escritor.writeObject(pl);
+    }
+    } catch (IOException ex) {
+    System.err.println(ex.getMessage());
+    }
+    }*/
+    /**
+     * Metodo que hace el guardado en fichero CSV/TXT.
+     * @param url
+
+    public void saveTxt(String url) {
+    try {
+    JsonNode jsonTree = new ObjectMapper().readTree(new File(url + ".json"));
+    CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
+    JsonNode firstObject = jsonTree.elements().next();
+    firstObject.fieldNames().forEachRemaining(fieldName -> {
+    csvSchemaBuilder.addColumn(fieldName);
+    });
+    CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
+    CsvMapper csvMapper = new CsvMapper();
+    csvMapper.writerFor(JsonNode.class)
+    .with(csvSchema)
+    .writeValue(new File(url + ".txt"), jsonTree);
+    } catch (IOException e) {
+    System.out.println(e.getMessage());
+    }
+    }*/
 }

@@ -1,5 +1,6 @@
 package com.example.proyectosw.Controller;
 
+import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.*;
 import com.example.proyectosw.model.Character;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,18 +23,66 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class VehiclesController {
-    private final String url = "https://swapi.dev/api/vehicles/?search=";
-    private List<Vehicle> vehicles;
-    private List<Vehicle> Json;
+    private List<Vehicle> vehicles = new ArrayList<>();
     /**
      * Metodo que hace la llamada a la API.
      * @param name
+     */
+    public void showVehicles(String name){
+        try{
+            Conexion c = new Conexion();
+            c.openConnection();
+            if (name.equals("")) {
+                Statement stm = c.c.createStatement();
+                ResultSet rst = stm.executeQuery("SELECT * FROM VEHICLES");
+                while (rst.next()) {
+                    vehicles.add(new Vehicle(
+                            rst.getInt("ID"),
+                            rst.getString("NAME"),
+                            rst.getString("MODEL"),
+                            rst.getString("MANUFACTURER"),
+                            rst.getString("COSTINCREDITS"),
+                            rst.getString("LENGTH"),
+                            rst.getString("PASSENGERS"),
+                            rst.getString("CARGOCAPACITY"),
+                            rst.getString("VEHICLECLASS")
+                    ));
+                }
+            } else {
+                PreparedStatement pstm = c.c.prepareStatement("SELECT * FROM VEHICLES WHERE NAME LIKE ?");
+                pstm.setString(1, "%" + name + "%");
 
+                ResultSet rst = pstm.executeQuery();
+
+                while (rst.next()) {
+                    vehicles.add(new Vehicle(
+                            rst.getInt("ID"),
+                            rst.getString("NAME"),
+                            rst.getString("MODEL"),
+                            rst.getString("MANUFACTURER"),
+                            rst.getString("COSTINCREDITS"),
+                            rst.getString("LENGTH"),
+                            rst.getString("PASSENGERS"),
+                            rst.getString("CARGOCAPACITY"),
+                            rst.getString("VEHICLECLASS")
+                    ));
+                }
+            }
+            c.closeConnection();
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    /*
     public void setVehicles(String name) {
         try {
             URL jsonURL = new URL(url + name + "&format=json");
@@ -53,6 +102,7 @@ public class VehiclesController {
     public void fillTable(TableView searchTable) {
         if (vehicles.size() > 0) {
             searchTable.getColumns().clear();
+            TableColumn<Vehicle, Integer> col_id = new TableColumn<>("id");
             TableColumn<Vehicle, String> col_Name = new TableColumn<>("Name");
             TableColumn<Vehicle, String> col_Model = new TableColumn<>("Model");
             TableColumn<Vehicle, String> col_Manufacturer = new TableColumn<>("Manufacturer");
@@ -62,8 +112,9 @@ public class VehiclesController {
             TableColumn<Vehicle, String> col_CargoCapacity = new TableColumn<>("Cargo Capacity");
             TableColumn<Vehicle, String> col_VehicleClass = new TableColumn<>("Vehicle Class");
 
-            searchTable.getColumns().addAll(col_Name, col_Model, col_Manufacturer, col_Cost, col_Length, col_Passengers, col_CargoCapacity, col_VehicleClass);
+            searchTable.getColumns().addAll(col_id,col_Name, col_Model, col_Manufacturer, col_Cost, col_Length, col_Passengers, col_CargoCapacity, col_VehicleClass);
 
+            col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
             col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
             col_Model.setCellValueFactory(new PropertyValueFactory<>("model"));
             col_Manufacturer.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
@@ -89,7 +140,7 @@ public class VehiclesController {
         try {
             File arc = new File(url + ".json");
             ObjectMapper om = new ObjectMapper();
-            om.writeValue(arc, Json);
+            om.writeValue(arc, vehicles);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -98,7 +149,7 @@ public class VehiclesController {
     /**
      * Metodo que hace el guardado en fichero XML.
      * @param url
-     */
+
     public void saveXml(String url) {
         try {
             File arc = new File(url + ".xml");
@@ -109,11 +160,11 @@ public class VehiclesController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
     /**
      * Metodo que hace el guardado en fichero Binario.
      * @param url
-     */
+
     public void saveBinario(String url) {
         File arc = new File(url + ".bin");
         try (ObjectOutputStream escritor = new ObjectOutputStream(new FileOutputStream(arc))) {
@@ -123,11 +174,11 @@ public class VehiclesController {
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
-    }
+    }*/
     /**
      * Metodo que hace el guardado en fichero CSV/TXT.
      * @param url
-     */
+
     public void saveTxt(String url) {
         try {
             JsonNode jsonTree = new ObjectMapper().readTree(new File(url + ".json"));
@@ -144,7 +195,7 @@ public class VehiclesController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
     /**
      * Metodo que hace la ordenación del resultado de la API.
      * @param lista
