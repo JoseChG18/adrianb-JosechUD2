@@ -10,8 +10,8 @@
          <font>
             <Font size="25.0" />
          </font></Label>
-      <Button layoutX="355.0" layoutY="50.0" mnemonicParsing="false" text="Buscar" />
-      <ComboBox layoutX="195.0" layoutY="50.0" prefWidth="150.0" promptText="--Elija un tipo--" />
-      <Button layoutX="483.0" layoutY="340.0" mnemonicParsing="false" text="Modificar" />
+      <Button fx:id="search" layoutX="355.0" layoutY="50.0" mnemonicParsing="false" text="Buscar" onAction="#buscarUpdate"/>
+      <ComboBox fx:id="cbElection" layoutX="195.0" layoutY="50.0" prefWidth="150.0" promptText="--Elija un tipo--" />
+      <TableView fx:id="searchTable" layoutX="14.0" layoutY="100.0" prefHeight="285.0" prefWidth="572.0" />
    </children>
 </AnchorPane>

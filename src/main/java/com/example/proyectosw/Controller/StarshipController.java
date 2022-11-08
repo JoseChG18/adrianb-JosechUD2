@@ -85,26 +85,13 @@ public class StarshipController {
             System.out.println(ex.getMessage());
         }
     }
-    /*
-    public void setStarships(String name) {
-        try {
-            URL jsonURL = new URL(url + name + "&format=json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            ResponseStarship response = objectMapper.readValue(jsonURL, ResponseStarship.class);
-            Json = response.getResults();
-            starships = response.getResults();
-            starships = sortList(starships);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }*/
 
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      *
      * @param searchTable
      */
-    public void fillTable(TableView searchTable) {
+    public void fillTable(TableView searchTable, String option) {
         if (starships.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Starship, Integer> col_id = new TableColumn<>("id");

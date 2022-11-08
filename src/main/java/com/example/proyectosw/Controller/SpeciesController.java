@@ -74,25 +74,13 @@ public class SpeciesController {
             System.out.println(ex.getMessage());
         }
     }
-    /**public void setSpecies(String name) {
-     try {
-     URL jsonURL = new URL(url + name + "&format=json");
-     ObjectMapper objectMapper = new ObjectMapper();
-     ResponseSpecies response = objectMapper.readValue(jsonURL, ResponseSpecies.class);
-     species = response.getResults();
-     species = sortList(species);
-     } catch (IOException e) {
-     System.out.println(e.getMessage());
-     }
-     }
-     */
 
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      *
      * @param searchTable
      */
-    public void fillTable(TableView searchTable) {
+    public void fillTable(TableView searchTable, String option) {
         if (species.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Species, Integer> col_id = new TableColumn<>("id");

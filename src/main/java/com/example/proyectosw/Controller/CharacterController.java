@@ -3,9 +3,16 @@ package com.example.proyectosw.Controller;
 import com.almasb.fxgl.scene3d.Cone;
 import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Character;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.sql.PreparedStatement;
@@ -91,22 +98,10 @@ public class CharacterController {
             col_HairColor.setCellValueFactory(new PropertyValueFactory<>("hairColor"));
 
             if (option.equals("delete")) {
-                TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
-                searchTable.getColumns().add(col_buttonDelete);
-                col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
-                for (Character c : characters) {
-                    c.getEliminar().setOnAction(actionEvent -> {
-                        try {
-                            Conexion conex = new Conexion();
-                            conex.openConnection();
-                            Statement stm = conex.c.createStatement();
-                            stm.executeUpdate("DELETE FROM CHARACTERS WHERE ID = " + c.getId());
-                            conex.closeConnection();
-                        } catch (SQLException ex) {
-                            System.out.println(ex.getMessage());
-                        }
-                    });
-                }
+                creacionDelete(searchTable);
+            }
+            if (option.equals("update")){
+                creacionUpdate(searchTable);
             }
             searchTable.getItems().clear();
             searchTable.getItems().addAll(characters);
@@ -118,6 +113,89 @@ public class CharacterController {
         }
     }
 
+    public void creacionDelete(TableView searchTable){
+        TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
+        searchTable.getColumns().add(col_buttonDelete);
+        col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
+        for (Character c : characters) {
+            c.getEliminar().setOnAction(actionEvent -> {
+                try {
+                    Conexion conex = new Conexion();
+                    conex.openConnection();
+                    Statement stm = conex.c.createStatement();
+                    stm.executeUpdate("DELETE FROM CHARACTERS WHERE ID = " + c.getId());
+                    conex.closeConnection();
+                    characters.clear();
+                    showCharacter("");
+                    fillTable(searchTable,"delete");
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+        }
+    }
+    public void creacionInsert(AnchorPane anchorPane,TableView searchTable){
+
+        Label lblName = new Label("Name: ");
+        TextField txtName = new TextField("");
+        Label lblGender = new Label("Gender: ");
+        TextField txtGender = new TextField("");
+        Label lblHomeworld = new Label("Homeworld: ");
+        TextField txtHomeworld = new TextField("");
+        Label lblSkincolor = new Label("Skin Color: ");
+        TextField txtSkincolor = new TextField("");
+        Label lblHaircolor = new Label("Hair Color: ");
+        TextField txtHaircolor = new TextField("");
+        Button btnAgregar = new Button("Agregar");
+        btnAgregar.setOnAction(actionEvent -> {
+            try{
+                Conexion c = new Conexion();
+                c.openConnection();
+                PreparedStatement pstm = c.c.prepareStatement("INSERT INTO CHARACTERS(name,gender,skin_color,homeworld,hair_color) VALUES(?,?,?,?,?)");
+                pstm.setString(1,txtName.getText());
+                pstm.setString(2,txtGender.getText());
+                pstm.setString(3,txtSkincolor.getText());
+                pstm.setInt(4,Integer.parseInt(txtHomeworld.getText()));
+                pstm.setString(5,txtHaircolor.getText());
+                pstm.executeUpdate();
+                characters.clear();
+                showCharacter("");
+                fillTable(searchTable,"insert");
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        });
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().addAll(lblName, txtName, lblGender, txtGender, lblHomeworld, txtHomeworld, lblSkincolor, txtSkincolor, lblHaircolor, txtHaircolor, btnAgregar);
+        // prefHeight="120.0" prefWidth="570.0"
+        txtName.setTranslateX(40);
+
+        lblGender.setTranslateX(200);
+        txtGender.setTranslateX(250);
+
+        lblHomeworld.setTranslateY(30);
+        txtHomeworld.setTranslateX(70);
+        txtHomeworld.setTranslateY(30);
+
+        lblHaircolor.setTranslateY(30);
+        txtHaircolor.setTranslateY(30);
+        lblHaircolor.setTranslateX(230);
+        txtHaircolor.setTranslateX(290);
+
+
+        lblSkincolor.setTranslateY(60);
+        txtSkincolor.setTranslateY(60);
+        txtSkincolor.setTranslateX(60);
+
+
+        btnAgregar.setTranslateX(500);
+        btnAgregar.setTranslateY(90);
+    }
+    public void creacionUpdate(TableView searchTable){
+        TableColumn<Character, Void> col_buttonUpdate = new TableColumn<>("Modificar");
+        searchTable.getColumns().add(col_buttonUpdate);
+        col_buttonUpdate.setCellValueFactory(new PropertyValueFactory<>("update"));
+    }
 
     /**
      * Metodo que hace el guardado en fichero JSON.

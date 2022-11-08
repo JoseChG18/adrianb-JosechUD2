@@ -17,7 +17,6 @@ import java.util.List;
 
 public class FilmController {
     private List<Film> films = new ArrayList<>();
-    private List<Film> Json;
     /**
      * Metodo que hace la llamada a la API.
      * @param name
@@ -57,23 +56,11 @@ public class FilmController {
             System.out.println(ex.getMessage());
         }
     }
-    /**public void setFilms(String name) {
-        try {
-            URL jsonURL = new URL(url + name + "&format=json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            ResponseFilm response = objectMapper.readValue(jsonURL, ResponseFilm.class);
-            Json = response.getResults();
-            films = response.getResults();
-            films = sortList(films);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
+    /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
      */
-    public void fillTable(TableView searchTable) {
+    public void fillTable(TableView searchTable, String option) {
         if (films.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Film, Integer> col_id = new TableColumn<>("Nº film");

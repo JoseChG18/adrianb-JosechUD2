@@ -54,22 +54,12 @@ public class PlanetController {
             System.out.println(ex);
         }
     }
-    /**public void setPlanets(String name) {
-        try {
-            URL jsonURL = new URL(url + name + "&format=json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            ResponsePlanet response = objectMapper.readValue(jsonURL, ResponsePlanet.class);
-            planets = response.getResults();
-            planets = sortList(planets);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
+     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
      */
-    public void fillTable(TableView searchTable) {
+    public void fillTable(TableView searchTable, String option) {
         if (planets.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Planet, Integer> col_Id = new TableColumn<>("ID");

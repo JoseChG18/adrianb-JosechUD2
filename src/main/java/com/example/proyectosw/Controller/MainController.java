@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
@@ -24,6 +26,8 @@ public class MainController implements Initializable {
     private TextField name;
     @FXML
     private TableView searchTable;
+    @FXML
+    private AnchorPane anchorPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,27 +89,27 @@ public class MainController implements Initializable {
                     case "Planets":
                         PlanetController pc = new PlanetController();
                         pc.showPlanets(getName());
-                        pc.fillTable(searchTable);
+                        pc.fillTable(searchTable,"select");
                         break;
                     case "Films":
                         FilmController fc = new FilmController();
                         fc.showFilms(getName());
-                        fc.fillTable(searchTable);
+                        fc.fillTable(searchTable,"select");
                         break;
                     case "Species":
                         SpeciesController sc = new SpeciesController();
                         sc.showSpecies(getName());
-                        sc.fillTable(searchTable);
+                        sc.fillTable(searchTable,"select");
                         break;
                     case "Vehicles":
                         VehiclesController vc = new VehiclesController();
                         vc.showVehicles(getName());
-                        vc.fillTable(searchTable);
+                        vc.fillTable(searchTable,"select");
                         break;
                     case "Starships":
                         StarshipController ssc = new StarshipController();
                         ssc.showStarships(getName());
-                        ssc.fillTable(searchTable);
+                        ssc.fillTable(searchTable,"select");
                         break;
                 }
             } else {
@@ -204,6 +208,120 @@ public class MainController implements Initializable {
                         CharacterController c = new CharacterController();
                         c.showCharacter("");
                         c.fillTable(searchTable,"delete");
+                        break;
+                    case "Planets":
+                        PlanetController pc = new PlanetController();
+                        pc.showPlanets("");
+                        pc.fillTable(searchTable,"delete");
+                        break;
+                    case "Films":
+                        FilmController fc = new FilmController();
+                        fc.showFilms("");
+                        fc.fillTable(searchTable,"delete");
+                        break;
+                    case "Species":
+                        SpeciesController sc = new SpeciesController();
+                        sc.showSpecies("");
+                        sc.fillTable(searchTable,"delete");
+                        break;
+
+                    case "Vehicles":
+                        VehiclesController vc = new VehiclesController();
+                        vc.showVehicles("");
+                        vc.fillTable(searchTable,"delete");
+                        break;
+                    case "Starships":
+                        StarshipController ssc = new StarshipController();
+                        ssc.showStarships("");
+                        ssc.fillTable(searchTable,"delete");
+                        break;
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public void buscarInsert(ActionEvent actionEvent){
+        try{
+            String option = getComboBox();
+
+            if (option != null) {
+                switch (option){
+                    case "People":
+                        CharacterController c = new CharacterController();
+                        c.showCharacter("");
+                        c.creacionInsert(anchorPane,searchTable);
+                        c.fillTable(searchTable,"insert");
+                        break;
+                    case "Planets":
+                        PlanetController pc = new PlanetController();
+                        pc.showPlanets("");
+                        pc.fillTable(searchTable,"delete");
+                        break;
+                    case "Films":
+                        FilmController fc = new FilmController();
+                        fc.showFilms("");
+                        fc.fillTable(searchTable,"delete");
+                        break;
+                    case "Species":
+                        SpeciesController sc = new SpeciesController();
+                        sc.showSpecies("");
+                        sc.fillTable(searchTable,"delete");
+                        break;
+
+                    case "Vehicles":
+                        VehiclesController vc = new VehiclesController();
+                        vc.showVehicles("");
+                        vc.fillTable(searchTable,"delete");
+                        break;
+                    case "Starships":
+                        StarshipController ssc = new StarshipController();
+                        ssc.showStarships("");
+                        ssc.fillTable(searchTable,"delete");
+                        break;
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public void buscarUpdate(ActionEvent actionEvent){
+        try{
+            String option = getComboBox();
+
+            if (option != null) {
+                switch (option){
+                    case "People":
+                        CharacterController c = new CharacterController();
+                        c.showCharacter("");
+                        c.fillTable(searchTable,"update");
+                        break;
+                    case "Planets":
+                        PlanetController pc = new PlanetController();
+                        pc.showPlanets("");
+                        pc.fillTable(searchTable,"update");
+                        break;
+                    case "Films":
+                        FilmController fc = new FilmController();
+                        fc.showFilms("");
+                        fc.fillTable(searchTable,"update");
+                        break;
+                    case "Species":
+                        SpeciesController sc = new SpeciesController();
+                        sc.showSpecies("");
+                        sc.fillTable(searchTable,"update");
+                        break;
+
+                    case "Vehicles":
+                        VehiclesController vc = new VehiclesController();
+                        vc.showVehicles("");
+                        vc.fillTable(searchTable,"update");
+                        break;
+                    case "Starships":
+                        StarshipController ssc = new StarshipController();
+                        ssc.showStarships("");
+                        ssc.fillTable(searchTable,"update");
+                        break;
                 }
             }
         }catch (Exception e){

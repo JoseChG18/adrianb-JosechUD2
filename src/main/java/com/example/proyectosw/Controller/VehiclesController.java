@@ -82,24 +82,12 @@ public class VehiclesController {
             System.out.println(ex.getMessage());
         }
     }
-    /*
-    public void setVehicles(String name) {
-        try {
-            URL jsonURL = new URL(url + name + "&format=json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            ResponseVehicles response = objectMapper.readValue(jsonURL, ResponseVehicles.class);
-            Json = response.getResults();
-            vehicles = response.getResults();
-            vehicles = sortList(vehicles);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }*/
+
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
      */
-    public void fillTable(TableView searchTable) {
+    public void fillTable(TableView searchTable, String option) {
         if (vehicles.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Vehicle, Integer> col_id = new TableColumn<>("id");
