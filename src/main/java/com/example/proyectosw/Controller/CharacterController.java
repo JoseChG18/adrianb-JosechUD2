@@ -1,19 +1,13 @@
 package com.example.proyectosw.Controller;
 
+import com.almasb.fxgl.scene3d.Cone;
 import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Character;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +18,6 @@ import java.util.List;
 
 public class CharacterController {
     private List<Character> characters = new ArrayList();
-    private List<Character> Json;
 
     /**
      * Metodo que hace la llamada a la API.
@@ -78,7 +71,7 @@ public class CharacterController {
      *
      * @param searchTable
      */
-    public void fillTable(TableView searchTable) {
+    public void fillTable(TableView searchTable, String option) {
         if (characters.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Character, Integer> col_Id = new TableColumn<>("ID");
@@ -96,6 +89,25 @@ public class CharacterController {
             col_SkinColor.setCellValueFactory(new PropertyValueFactory<>("skinColor"));
             col_Homeworld.setCellValueFactory(new PropertyValueFactory<>("homeworld"));
             col_HairColor.setCellValueFactory(new PropertyValueFactory<>("hairColor"));
+
+            if (option.equals("delete")) {
+                TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
+                searchTable.getColumns().add(col_buttonDelete);
+                col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
+                for (Character c : characters) {
+                    c.getEliminar().setOnAction(actionEvent -> {
+                        try {
+                            Conexion conex = new Conexion();
+                            conex.openConnection();
+                            Statement stm = conex.c.createStatement();
+                            stm.executeUpdate("DELETE FROM CHARACTERS WHERE ID = " + c.getId());
+                            conex.closeConnection();
+                        } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    });
+                }
+            }
             searchTable.getItems().clear();
             searchTable.getItems().addAll(characters);
         } else {
@@ -105,6 +117,7 @@ public class CharacterController {
             alert.showAndWait();
         }
     }
+
 
     /**
      * Metodo que hace el guardado en fichero JSON.

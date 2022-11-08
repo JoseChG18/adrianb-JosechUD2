@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.scene.control.Button;
 
 public class Character implements Serializable {
     @JsonProperty("id")
@@ -18,6 +21,9 @@ public class Character implements Serializable {
     private String skinColor;
     @JsonProperty("hair_color")
     private String hairColor;
+    private Button eliminar;
+    private Button agregar;
+    private Button modificar;
 
     public Character(int ID, String NAME, String GENDER, String SKIN_COLOR, String HOMEWORLD, String HAIR_COLOR){
         this.id = ID;
@@ -26,6 +32,9 @@ public class Character implements Serializable {
         this.skinColor = SKIN_COLOR;
         this.homeworld = HOMEWORLD;
         this.hairColor = HAIR_COLOR;
+        eliminar = new Button("Eliminar");
+        agregar = new Button("Agregar");
+        modificar = new Button("Modificar");
     }
 
     public int getId() {
@@ -46,6 +55,16 @@ public class Character implements Serializable {
     public String getHairColor() {
         return hairColor;
     }
+    public Button getAgregar() {
+        return agregar;
+    }
+    public Button getEliminar() {
+        return eliminar;
+    }
+    public Button getModificar() {
+        return modificar;
+    }
+
     /*
     @JsonProperty("birth_year")
     private String birthYear;

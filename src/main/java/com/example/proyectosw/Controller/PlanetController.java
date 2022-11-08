@@ -2,11 +2,7 @@ package com.example.proyectosw.Controller;
 
 import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Planet;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.*;

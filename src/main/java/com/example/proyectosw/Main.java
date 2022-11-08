@@ -1,6 +1,5 @@
 package com.example.proyectosw;
 
-import com.example.proyectosw.Controller.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,7 +65,7 @@ public class Main extends Application {
             // Sistema de Encriptado -> BCrypt.hashpw(textPass, BCrypt.gensalt(10))
             //System.out.println(BCrypt.checkpw(textPass, pass));
             if (textUser.equals(user) && BCrypt.checkpw(textPass, pass)) {
-                mainVent(loginStage);
+                optionsVent(loginStage);
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Login");
@@ -80,6 +79,38 @@ public class Main extends Application {
             alert.showAndWait();
         }
 
+    }
+
+    public void optionsVent(Stage optionStage){
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("optionsview.fxml"));
+            optionStage.setTitle("Escoge una opción");
+            optionStage.setScene(new Scene(root, 600, 400));
+            optionStage.setResizable(false);
+            optionStage.show();
+        }catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Login");
+            alert.setContentText("Error al abrir la ventana de opciones: " + e.getMessage());
+            alert.showAndWait();
+        }
+
+    }
+
+    public void insertBD(ActionEvent actionEvent) {
+        insertView(loginStage);
+    }
+
+    public void modifyBD(ActionEvent actionEvent) {
+        modifyView(loginStage);
+    }
+
+    public void selectBD(ActionEvent actionEvent) {
+        mainVent(loginStage);
+    }
+
+    public void deleteBD(ActionEvent actionEvent) {
+        deleteView(loginStage);
     }
 
     public void mainVent(Stage primaryStage) {
@@ -99,5 +130,50 @@ public class Main extends Application {
 
     }
 
+    public void insertView(Stage insertStage){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("insertview.fxml"));
+            insertStage.setTitle("Menu de Insertar");
+            insertStage.setScene(new Scene(root, 600, 400));
+            insertStage.setResizable(false);
+            insertStage.show();
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Login");
+            alert.setContentText("Error al abrir Ventana de Insertar: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    public void modifyView(Stage modifyStage){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("modifyview.fxml"));
+            modifyStage.setTitle("Menu de modificacion");
+            modifyStage.setScene(new Scene(root, 600, 400));
+            modifyStage.setResizable(false);
+            modifyStage.show();
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Login");
+            alert.setContentText("Error al abrir Ventana de modificacion: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    public void deleteView(Stage deleteStage){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("deleteview.fxml"));
+            deleteStage.setTitle("Menu de Eliminar");
+            deleteStage.setScene(new Scene(root, 600, 400));
+            deleteStage.setResizable(false);
+            deleteStage.show();
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Login");
+            alert.setContentText("Error al abrir Ventana de Eliminación: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
 
 }

@@ -1,0 +1,39 @@
+[
+  {
+    "eliminar": {
+      "properties": {},
+      "parent": null,
+      "scene": null,
+      "id": null,
+      "styleClass": [
+        "button"
+      ],
+      "style": "",
+      "visible": true,
+      "opacity": 1.0,
+      "blendMode": null,
+      "pickOnBounds": true,
+      "disabled": false,
+      "managed": true,
+      "layoutX": 0.0,
+      "layoutY": 0.0,
+      "layoutBounds": {
+        "minX": 0.0,
+        "minY": 0.0,
+        "minZ": 0.0,
+        "width": 0.0,
+        "height": 0.0,
+        "depth": 0.0,
+        "maxX": 0.0,
+        "maxY": 0.0,
+        "maxZ": 0.0,
+        "empty": false,
+        "centerX": 0.0,
+        "centerY": 0.0,
+        "centerZ": 0.0
+      },
+      "nodeOrientation": "INHERIT",
+      "hover": false,
+      "pressed": false,
+      "focused": false,
+      "focusTraversable": true

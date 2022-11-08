@@ -1,5 +1,7 @@
 package com.example.proyectosw.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.StageStyle;
-import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.net.URL;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class MainController implements Initializable {
     private TableView searchTable;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         loadData();
     }
 
@@ -38,6 +39,7 @@ public class MainController implements Initializable {
 
     /**
      * Obtener que item está seleccionado del Combo Box
+     *
      * @return String
      */
     public String getComboBox() {
@@ -46,6 +48,7 @@ public class MainController implements Initializable {
 
     /**
      * Obtener el nombre que se busca en la API.
+     *
      * @return
      */
     public String getName() {
@@ -54,15 +57,21 @@ public class MainController implements Initializable {
 
     /**
      * Evento para buscar dandole al Enter.
+     *
      * @param keyEvent
-    */
+     */
     public void pressEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-            accionSearch(new ActionEvent());
+            accionConsultar(new ActionEvent());
         }
     }
 
-    public void accionSearch(ActionEvent actionEvent) {
+    /**
+     * Evento que hace la Llamada a la API.
+     *
+     * @param actionEvent
+     */
+    public void accionConsultar(ActionEvent actionEvent) {
         try {
             String option = getComboBox();
 
@@ -71,7 +80,7 @@ public class MainController implements Initializable {
                     case "People":
                         CharacterController cc = new CharacterController();
                         cc.showCharacter(getName());
-                        cc.fillTable(searchTable);
+                        cc.fillTable(searchTable,"select");
                         break;
                     case "Planets":
                         PlanetController pc = new PlanetController();
@@ -105,70 +114,16 @@ public class MainController implements Initializable {
                 alert.setContentText("Select one status.");
                 alert.showAndWait();
             }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Evento que hace la Llamada a la API.
-     * @param actionEvent
-
-    public void accionSearch(ActionEvent actionEvent) {
-        try {
-            String option = getComboBox();
-
-            if (option != null) {
-                switch (option) {
-                    case "People":
-                        CharacterController cc = new CharacterController();
-                        cc.setCharacters(getName());
-                        cc.changeHomeworld();
-                        cc.fillTable(searchTable);
-                        break;
-                    case "Planets":
-                        PlanetController pc = new PlanetController();
-                        pc.setPlanets(getName());
-                        pc.fillTable(searchTable);
-                        break;
-                    case "Films":
-                        FilmController fc = new FilmController();
-                        fc.setFilms(getName());
-                        fc.fillTable(searchTable);
-                        break;
-                    case "Species":
-                        SpeciesController sc = new SpeciesController();
-                        sc.setSpecies(getName());
-                        sc.changeHomeworld();
-                        sc.fillTable(searchTable);
-                        break;
-                    case "Vehicles":
-                        VehiclesController vc = new VehiclesController();
-                        vc.setVehicles(getName());
-                        vc.fillTable(searchTable);
-                        break;
-                    case "Starships":
-                        StarshipController ssc = new StarshipController();
-                        ssc.setStarships(getName());
-                        ssc.fillTable(searchTable);
-                        break;
-                }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Status");
-                alert.setContentText("Select one status.");
-                alert.showAndWait();
-            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
-     */
+
     /**
      * Evento que se ejecuta para guardar los resultados en cada tipo de fichero.
+     *
      * @param actionEvent
-    */
+     */
     public void saveFiles(ActionEvent actionEvent) {
         boolean filesSaved = false;
         String archivo = "";
@@ -235,6 +190,23 @@ public class MainController implements Initializable {
                 }
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void buscarDelete(ActionEvent actionEvent){
+        try{
+            String option = getComboBox();
+
+            if (option != null) {
+                switch (option){
+                    case "People":
+                        CharacterController c = new CharacterController();
+                        c.showCharacter("");
+                        c.fillTable(searchTable,"delete");
+                }
+            }
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
