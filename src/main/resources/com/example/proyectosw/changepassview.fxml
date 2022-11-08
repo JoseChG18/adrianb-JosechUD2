@@ -12,17 +12,16 @@
     <AnchorPane prefHeight="385.0" prefWidth="600.0">
         <children>
             <Label layoutX="22.0" layoutY="57.0" prefHeight="17.0" prefWidth="59.0" text="Username" textAlignment="CENTER" />
-            <Label layoutX="22.0" layoutY="89.0" prefHeight="17.0" prefWidth="59.0" text="Password" fx:id="lblPass"/>
+            <Label fx:id="lblPass" layoutX="5.0" layoutY="89.0" prefHeight="17.0" prefWidth="81.0" text="New password" />
             <TextField fx:id="user" layoutX="89.0" layoutY="53.0" />
             <PasswordField fx:id="password" layoutX="89.0" layoutY="85.0" onKeyPressed="#pressEnter" />
-            <Button fx:id="btnLogin" layoutX="104.0" layoutY="124.0" mnemonicParsing="false" onAction="#btnEvent" text="Login" />
-            <Label fx:id="cabecera" layoutX="67.0" layoutY="14.0" prefHeight="33.0" prefWidth="149.0" text="INICIO SESIÓN" textAlignment="CENTER">
+            <Button fx:id="btnLogin" layoutX="96.0" layoutY="124.0" mnemonicParsing="false" onAction="#btnEvent" text="Registrar" />
+            <Label fx:id="cabecera" layoutX="24.0" layoutY="14.0" prefHeight="33.0" prefWidth="219.0" text="CAMBIAR CONTRASEÑA" textAlignment="CENTER">
                 <font>
-                   <Font size="20.0" />
+                    <Font size="20.0" />
                 </font>
             </Label>
-            <Button fx:id="nuevoUser" layoutX="60.0" layoutY="160.0" onAction="#newUser" prefHeight="20.0" prefWidth="140.0" text="¿No tienes una cuenta?" textAlignment="CENTER" />
-            <Button fx:id="cambioPass" layoutX="44.0" layoutY="188.0" onAction="#changePass" prefHeight="17.0" prefWidth="172.0" text="¿Has olvidado tu contraseña?" textAlignment="CENTER" />
+            <Button fx:id="cambioPass" layoutX="84.0" layoutY="162.0" onAction="#changePass" prefHeight="25.0" prefWidth="92.0" text="¿Volver atras?" textAlignment="CENTER" />
         </children>
     </AnchorPane>
 </VBox>
