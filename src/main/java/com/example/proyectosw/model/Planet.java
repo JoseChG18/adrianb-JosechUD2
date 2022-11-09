@@ -3,7 +3,9 @@ package com.example.proyectosw.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.scene.control.Button;
 
 public class Planet implements Serializable {
     @JsonProperty("id")
@@ -18,6 +20,8 @@ public class Planet implements Serializable {
     private String population;
     @JsonProperty("gravity")
     private String gravity;
+    @JsonIgnore
+    private final Button eliminar;
 
 
     public Planet(int ID, String NAME, String TERRAIN, String GRAVITY, String CLIMATE, String POPULATION){
@@ -27,6 +31,7 @@ public class Planet implements Serializable {
         this.gravity = GRAVITY;
         this.climate = CLIMATE;
         this.population = POPULATION;
+        eliminar = new Button("Eliminar");
     }
     public int getId() {
         return id;
@@ -50,6 +55,9 @@ public class Planet implements Serializable {
 
     public String getTerrain() {
         return terrain;
+    }
+    public Button getEliminar() {
+        return eliminar;
     }
 
     /*

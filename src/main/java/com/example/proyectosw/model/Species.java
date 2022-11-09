@@ -3,10 +3,11 @@ package com.example.proyectosw.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.scene.control.Button;
 
 public class Species implements Serializable {
-
 
     @JsonProperty("id")
     private int id;
@@ -20,6 +21,8 @@ public class Species implements Serializable {
     private String name;
     @JsonProperty("average_lifespan")
     private String averageLifespan;
+    @JsonIgnore
+    private final Button eliminar;
 
     public Species(int ID,String NAME, String CLASSIFICATION, String HOMEWORLD, String LANGUAGE, String AVERAGELIFESPAN){
         this.id = ID;
@@ -28,6 +31,7 @@ public class Species implements Serializable {
         this.homeworld = HOMEWORLD;
         this.language = LANGUAGE;
         this.averageLifespan = AVERAGELIFESPAN;
+        eliminar = new Button("Eliminar");
     }
     public int getId() {
         return id;
@@ -46,6 +50,9 @@ public class Species implements Serializable {
     }
     public String getAverageLifespan() {
         return averageLifespan;
+    }
+    public Button getEliminar() {
+        return eliminar;
     }
     /*
     @JsonProperty("average_height")

@@ -8,10 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,18 +73,6 @@ public class SpeciesController {
             System.out.println(ex.getMessage());
         }
     }
-    /**public void setSpecies(String name) {
-     try {
-     URL jsonURL = new URL(url + name + "&format=json");
-     ObjectMapper objectMapper = new ObjectMapper();
-     ResponseSpecies response = objectMapper.readValue(jsonURL, ResponseSpecies.class);
-     species = response.getResults();
-     species = sortList(species);
-     } catch (IOException e) {
-     System.out.println(e.getMessage());
-     }
-     }
-     */
 
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
@@ -118,6 +105,94 @@ public class SpeciesController {
             alert.setContentText("Error Al encontrar Personaje.");
             alert.showAndWait();
         }
+    }
+
+    public void creacionDelete(TableView searchTable){
+        TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
+        searchTable.getColumns().add(col_buttonDelete);
+        col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
+        for (Species sp : species) {
+            sp.getEliminar().setOnAction(actionEvent -> {
+                try {
+                    Conexion conex = new Conexion();
+                    conex.openConnection();
+                    Statement stm = conex.c.createStatement();
+                    stm.executeUpdate("DELETE FROM SPECIES WHERE ID = " + sp.getId());
+                    conex.closeConnection();
+                    species.clear();
+                    showSpecies("");
+                    fillTable(searchTable);
+                    creacionDelete(searchTable);
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+        }
+    }
+
+    public void creacionInsert(AnchorPane anchorPane, TableView searchTable){
+        //(NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN)
+        Label lblName = new Label("Name: ");
+        TextField txtName = new TextField("");
+        Label lblClasi = new Label("Classification: ");
+        TextField txtClasi = new TextField("");
+        Label lblHomeworld = new Label("Homeworld: ");
+        TextField txtHomeworld = new TextField("");
+        Label lblLang = new Label("Language: ");
+        TextField txtLang = new TextField("");
+        Label lblAvglifespan = new Label("Average Lifespan: ");
+        TextField txtAvglifespan = new TextField("");
+        Button btnAgregar = new Button("Agregar");
+        btnAgregar.setOnAction(actionEvent -> {
+            try{
+                Conexion c = new Conexion();
+                c.openConnection();
+                PreparedStatement pstm = c.c.prepareStatement("INSERT INTO SPECIES(NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN) VALUES(?,?,?,?,?)");
+                pstm.setString(1,txtName.getText());
+                pstm.setString(2,txtClasi.getText());
+                pstm.setInt(3,Integer.parseInt(txtHomeworld.getText()));
+                pstm.setString(4,txtLang.getText());
+                pstm.setString(5,txtAvglifespan.getText());
+                pstm.executeUpdate();
+                species.clear();
+                showSpecies("");
+                fillTable(searchTable);
+                txtName.setText("");
+                txtClasi.setText("");
+                txtAvglifespan.setText("");
+                txtHomeworld.setText("");
+                txtLang.setText("");
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        });
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().addAll(lblName, txtName, lblClasi, txtClasi, lblHomeworld, txtHomeworld, lblLang, txtLang, lblAvglifespan, txtAvglifespan, btnAgregar);
+        // prefHeight="120.0" prefWidth="570.0"
+        lblName.setTranslateY(10);
+        txtName.setTranslateY(10);
+        txtName.setTranslateX(40);
+
+        lblClasi.setTranslateY(10);
+        txtClasi.setTranslateY(10);
+        lblClasi.setTranslateX(200);
+        txtClasi.setTranslateX(290);
+
+        lblHomeworld.setTranslateY(40);
+        txtHomeworld.setTranslateX(70);
+        txtHomeworld.setTranslateY(40);
+
+        lblLang.setTranslateY(40);
+        txtLang.setTranslateY(40);
+        lblLang.setTranslateX(230);
+        txtLang.setTranslateX(290);
+
+        lblAvglifespan.setTranslateY(70);
+        txtAvglifespan.setTranslateY(70);
+        txtAvglifespan.setTranslateX(100);
+
+        btnAgregar.setTranslateX(500);
+        btnAgregar.setTranslateY(90);
     }
 
     /**

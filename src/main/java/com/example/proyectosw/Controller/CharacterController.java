@@ -2,18 +2,11 @@ package com.example.proyectosw.Controller;
 
 import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Character;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.scene.layout.AnchorPane;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +17,6 @@ import java.util.List;
 
 public class CharacterController {
     private List<Character> characters = new ArrayList();
-    private List<Character> Json;
 
     /**
      * Metodo que hace la llamada a la API.
@@ -48,6 +40,7 @@ public class CharacterController {
                             rst.getString("SKIN_COLOR"),
                             rst.getString("HOMEWORLD"),
                             rst.getString("HAIR_COLOR")));
+
                 }
             } else {
                 PreparedStatement pstm = c.c.prepareStatement(
@@ -96,6 +89,7 @@ public class CharacterController {
             col_SkinColor.setCellValueFactory(new PropertyValueFactory<>("skinColor"));
             col_Homeworld.setCellValueFactory(new PropertyValueFactory<>("homeworld"));
             col_HairColor.setCellValueFactory(new PropertyValueFactory<>("hairColor"));
+
             searchTable.getItems().clear();
             searchTable.getItems().addAll(characters);
         } else {
@@ -105,6 +99,100 @@ public class CharacterController {
             alert.showAndWait();
         }
     }
+
+    public void creacionDelete(TableView searchTable){
+        TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
+        searchTable.getColumns().add(col_buttonDelete);
+        col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
+        for (Character c : characters) {
+            c.getEliminar().setOnAction(actionEvent -> {
+                try {
+                    Conexion conex = new Conexion();
+                    conex.openConnection();
+                    Statement stm = conex.c.createStatement();
+                    stm.executeUpdate("DELETE FROM CHARACTERS WHERE ID = " + c.getId());
+                    conex.closeConnection();
+                    characters.clear();
+                    showCharacter("");
+                    fillTable(searchTable);
+                    creacionDelete(searchTable);
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+        }
+    }
+    public void creacionInsert(AnchorPane anchorPane,TableView searchTable){
+
+        Label lblName = new Label("Name: ");
+        TextField txtName = new TextField("");
+        Label lblGender = new Label("Gender: ");
+        TextField txtGender = new TextField("");
+        Label lblHomeworld = new Label("Homeworld: ");
+        TextField txtHomeworld = new TextField("");
+        Label lblSkincolor = new Label("Skin Color: ");
+        TextField txtSkincolor = new TextField("");
+        Label lblHaircolor = new Label("Hair Color: ");
+        TextField txtHaircolor = new TextField("");
+        Button btnAgregar = new Button("Agregar");
+        btnAgregar.setOnAction(actionEvent -> {
+            try{
+                Conexion c = new Conexion();
+                c.openConnection();
+                PreparedStatement pstm = c.c.prepareStatement("INSERT INTO CHARACTERS(name,gender,skin_color,homeworld,hair_color) VALUES(?,?,?,?,?)");
+                pstm.setString(1,txtName.getText());
+                pstm.setString(2,txtGender.getText());
+                pstm.setString(3,txtSkincolor.getText());
+                pstm.setInt(4,Integer.parseInt(txtHomeworld.getText()));
+                pstm.setString(5,txtHaircolor.getText());
+                pstm.executeUpdate();
+                characters.clear();
+                showCharacter("");
+                fillTable(searchTable);
+                txtName.setText("");
+                txtGender.setText("");
+                txtSkincolor.setText("");
+                txtHomeworld.setText("");
+                txtHaircolor.setText("");
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        });
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().addAll(lblName, txtName, lblGender, txtGender, lblHomeworld, txtHomeworld, lblSkincolor, txtSkincolor, lblHaircolor, txtHaircolor, btnAgregar);
+        // prefHeight="120.0" prefWidth="570.0"
+        lblName.setTranslateY(10);
+        txtName.setTranslateY(10);
+        txtName.setTranslateX(40);
+
+        lblGender.setTranslateY(10);
+        txtGender.setTranslateY(10);
+        lblGender.setTranslateX(200);
+        txtGender.setTranslateX(250);
+
+        lblHomeworld.setTranslateY(40);
+        txtHomeworld.setTranslateX(70);
+        txtHomeworld.setTranslateY(40);
+
+        lblHaircolor.setTranslateY(40);
+        txtHaircolor.setTranslateY(40);
+        lblHaircolor.setTranslateX(230);
+        txtHaircolor.setTranslateX(290);
+
+
+        lblSkincolor.setTranslateY(70);
+        txtSkincolor.setTranslateY(70);
+        txtSkincolor.setTranslateX(60);
+
+
+        btnAgregar.setTranslateX(500);
+        btnAgregar.setTranslateY(90);
+    }
+    /*public void creacionUpdate(TableView searchTable){
+        TableColumn<Character, Void> col_buttonUpdate = new TableColumn<>("Modificar");
+        searchTable.getColumns().add(col_buttonUpdate);
+        col_buttonUpdate.setCellValueFactory(new PropertyValueFactory<>("update"));
+    }*/
 
     /**
      * Metodo que hace el guardado en fichero JSON.

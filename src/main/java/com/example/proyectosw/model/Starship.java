@@ -3,7 +3,9 @@ package com.example.proyectosw.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.scene.control.Button;
 
 public class Starship implements Serializable {
 
@@ -25,6 +27,8 @@ public class Starship implements Serializable {
     private String starshipClass;
     @JsonProperty("hyperdrive_rating")
     private String hyperdriveRating;
+    @JsonIgnore
+    private final Button eliminar;
 
     public Starship(int ID, String NAME, String MODEL, String MANUFACTURER, String COSTINCREDITS, String LENGTH, String CARGOCAPACITY, String STARSHIPCLASS, String HYPERDRIVERATING){
         this.id = ID;
@@ -36,6 +40,7 @@ public class Starship implements Serializable {
         this.cargoCapacity = CARGOCAPACITY;
         this.starshipClass = STARSHIPCLASS;
         this.hyperdriveRating = HYPERDRIVERATING;
+        eliminar = new Button("Eliminar");
     }
 
     public int getId() {
@@ -72,6 +77,9 @@ public class Starship implements Serializable {
 
     public String getModel() {
         return model;
+    }
+    public Button getEliminar() {
+        return eliminar;
     }
 
     /*

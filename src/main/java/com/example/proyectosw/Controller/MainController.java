@@ -1,13 +1,16 @@
 package com.example.proyectosw.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.StageStyle;
-import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.net.URL;
 import java.util.Optional;
@@ -23,9 +26,11 @@ public class MainController implements Initializable {
     private TextField name;
     @FXML
     private TableView searchTable;
+    @FXML
+    private AnchorPane anchorPane;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         loadData();
     }
 
@@ -38,6 +43,7 @@ public class MainController implements Initializable {
 
     /**
      * Obtener que item está seleccionado del Combo Box
+     *
      * @return String
      */
     public String getComboBox() {
@@ -46,6 +52,7 @@ public class MainController implements Initializable {
 
     /**
      * Obtener el nombre que se busca en la API.
+     *
      * @return
      */
     public String getName() {
@@ -54,15 +61,21 @@ public class MainController implements Initializable {
 
     /**
      * Evento para buscar dandole al Enter.
+     *
      * @param keyEvent
-    */
+     */
     public void pressEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-            accionSearch(new ActionEvent());
+            accionConsultar(new ActionEvent());
         }
     }
 
-    public void accionSearch(ActionEvent actionEvent) {
+    /**
+     * Evento que hace la Llamada a la API.
+     *
+     * @param actionEvent
+     */
+    public void accionConsultar(ActionEvent actionEvent) {
         try {
             String option = getComboBox();
 
@@ -105,70 +118,16 @@ public class MainController implements Initializable {
                 alert.setContentText("Select one status.");
                 alert.showAndWait();
             }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Evento que hace la Llamada a la API.
-     * @param actionEvent
-
-    public void accionSearch(ActionEvent actionEvent) {
-        try {
-            String option = getComboBox();
-
-            if (option != null) {
-                switch (option) {
-                    case "People":
-                        CharacterController cc = new CharacterController();
-                        cc.setCharacters(getName());
-                        cc.changeHomeworld();
-                        cc.fillTable(searchTable);
-                        break;
-                    case "Planets":
-                        PlanetController pc = new PlanetController();
-                        pc.setPlanets(getName());
-                        pc.fillTable(searchTable);
-                        break;
-                    case "Films":
-                        FilmController fc = new FilmController();
-                        fc.setFilms(getName());
-                        fc.fillTable(searchTable);
-                        break;
-                    case "Species":
-                        SpeciesController sc = new SpeciesController();
-                        sc.setSpecies(getName());
-                        sc.changeHomeworld();
-                        sc.fillTable(searchTable);
-                        break;
-                    case "Vehicles":
-                        VehiclesController vc = new VehiclesController();
-                        vc.setVehicles(getName());
-                        vc.fillTable(searchTable);
-                        break;
-                    case "Starships":
-                        StarshipController ssc = new StarshipController();
-                        ssc.setStarships(getName());
-                        ssc.fillTable(searchTable);
-                        break;
-                }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Status");
-                alert.setContentText("Select one status.");
-                alert.showAndWait();
-            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
-     */
+
     /**
      * Evento que se ejecuta para guardar los resultados en cada tipo de fichero.
+     *
      * @param actionEvent
-    */
+     */
     public void saveFiles(ActionEvent actionEvent) {
         boolean filesSaved = false;
         String archivo = "";
@@ -238,5 +197,147 @@ public class MainController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
+
+    public void buscarDelete(ActionEvent actionEvent){
+        try{
+            String option = getComboBox();
+
+            if (option != null) {
+                switch (option){
+                    case "People":
+                        CharacterController c = new CharacterController();
+                        c.showCharacter("");
+                        c.fillTable(searchTable);
+                        c.creacionDelete(searchTable);
+                        break;
+                    case "Planets":
+                        PlanetController pc = new PlanetController();
+                        pc.showPlanets("");
+                        pc.fillTable(searchTable);
+                        pc.creacionDelete(searchTable);
+                        break;
+                    case "Films":
+                        FilmController fc = new FilmController();
+                        fc.showFilms("");
+                        fc.fillTable(searchTable);
+                        fc.creacionDelete(searchTable);
+                        break;
+                    case "Species":
+                        SpeciesController sc = new SpeciesController();
+                        sc.showSpecies("");
+                        sc.fillTable(searchTable);
+                        sc.creacionDelete(searchTable);
+                        break;
+
+                    case "Vehicles":
+                        VehiclesController vc = new VehiclesController();
+                        vc.showVehicles("");
+                        vc.fillTable(searchTable);
+                        vc.creacionDelete(searchTable);
+                        break;
+                    case "Starships":
+                        StarshipController ssc = new StarshipController();
+                        ssc.showStarships("");
+                        ssc.fillTable(searchTable);
+                        ssc.creacionDelete(searchTable);
+                        break;
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public void buscarInsert(ActionEvent actionEvent){
+        try{
+            String option = getComboBox();
+
+            if (option != null) {
+                switch (option){
+                    case "People":
+                        CharacterController c = new CharacterController();
+                        c.showCharacter("");
+                        c.creacionInsert(anchorPane,searchTable);
+                        c.fillTable(searchTable);
+                        break;
+                    case "Planets":
+                        PlanetController pc = new PlanetController();
+                        pc.showPlanets("");
+                        pc.creacionInsert(anchorPane,searchTable);
+                        pc.fillTable(searchTable);
+                        break;
+                    case "Films":
+                        FilmController fc = new FilmController();
+                        fc.showFilms("");
+                        fc.creacionInsert(anchorPane,searchTable);
+                        fc.fillTable(searchTable);
+                        break;
+                    case "Species":
+                        SpeciesController sc = new SpeciesController();
+                        sc.showSpecies("");
+                        sc.creacionInsert(anchorPane,searchTable);
+                        sc.fillTable(searchTable);
+                        break;
+
+                    case "Vehicles":
+                        VehiclesController vc = new VehiclesController();
+                        vc.showVehicles("");
+                        vc.creacionInsert(anchorPane,searchTable);
+                        vc.fillTable(searchTable);
+                        break;
+                    case "Starships":
+                        StarshipController ssc = new StarshipController();
+                        ssc.showStarships("");
+                        ssc.creacionInsert(anchorPane,searchTable);
+                        ssc.fillTable(searchTable);
+                        break;
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    /*public void buscarUpdate(ActionEvent actionEvent){
+        try{
+            String option = getComboBox();
+
+            if (option != null) {
+                switch (option){
+                    case "People":
+                        CharacterController c = new CharacterController();
+                        c.showCharacter("");
+                        c.fillTable(searchTable);
+                        break;
+                    case "Planets":
+                        PlanetController pc = new PlanetController();
+                        pc.showPlanets("");
+                        pc.fillTable(searchTable);
+                        break;
+                    case "Films":
+                        FilmController fc = new FilmController();
+                        fc.showFilms("");
+                        fc.fillTable(searchTable,"update");
+                        break;
+                    case "Species":
+                        SpeciesController sc = new SpeciesController();
+                        sc.showSpecies("");
+                        sc.fillTable(searchTable,"update");
+                        break;
+
+                    case "Vehicles":
+                        VehiclesController vc = new VehiclesController();
+                        vc.showVehicles("");
+                        vc.fillTable(searchTable,"update");
+                        break;
+                    case "Starships":
+                        StarshipController ssc = new StarshipController();
+                        ssc.showStarships("");
+                        ssc.fillTable(searchTable,"update");
+                        break;
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }*/
 
 }

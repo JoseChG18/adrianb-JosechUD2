@@ -3,7 +3,9 @@ package com.example.proyectosw.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.scene.control.Button;
 
 public class Film implements Serializable {
 
@@ -17,6 +19,8 @@ public class Film implements Serializable {
     private String releaseDate;
     @JsonProperty("producer")
     private String producer;
+    @JsonIgnore
+    private final Button eliminar;
 
     public Film(int ID, String TITLE, String DIRECTOR, String RELEASEDATE, String PRODUCER){
         this.id = ID;
@@ -24,6 +28,7 @@ public class Film implements Serializable {
         this.director = DIRECTOR;
         this.releaseDate = RELEASEDATE;
         this.producer = PRODUCER;
+        eliminar = new Button("Eliminar");
     }
 
     public int getId() {
@@ -44,6 +49,9 @@ public class Film implements Serializable {
 
     public String getProducer() {
         return producer;
+    }
+    public Button getEliminar() {
+        return eliminar;
     }
     /*
     @JsonProperty("url")

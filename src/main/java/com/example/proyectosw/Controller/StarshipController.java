@@ -8,10 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -85,19 +84,6 @@ public class StarshipController {
             System.out.println(ex.getMessage());
         }
     }
-    /*
-    public void setStarships(String name) {
-        try {
-            URL jsonURL = new URL(url + name + "&format=json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            ResponseStarship response = objectMapper.readValue(jsonURL, ResponseStarship.class);
-            Json = response.getResults();
-            starships = response.getResults();
-            starships = sortList(starships);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }*/
 
     /**
      * Metodo para llenar la tabla tanto con las columnas y datos.
@@ -117,7 +103,7 @@ public class StarshipController {
             TableColumn<Starship, String> col_StarshipClass = new TableColumn<>("Starship class");
             TableColumn<Starship, String> col_Hyperdrive = new TableColumn<>("Hyperdrive rating");
 
-            searchTable.getColumns().addAll(col_id,col_Name, col_Model, col_Manufacturer, col_Cost, col_Length, col_CargoCapacity, col_StarshipClass, col_Hyperdrive);
+            searchTable.getColumns().addAll(col_id, col_Name, col_Model, col_Manufacturer, col_Cost, col_Length, col_CargoCapacity, col_StarshipClass, col_Hyperdrive);
 
             col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
             col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -139,6 +125,129 @@ public class StarshipController {
         }
     }
 
+    public void creacionDelete(TableView searchTable) {
+        TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
+        searchTable.getColumns().add(col_buttonDelete);
+        col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
+        for (Starship ss : starships) {
+            ss.getEliminar().setOnAction(actionEvent -> {
+                try {
+                    Conexion conex = new Conexion();
+                    conex.openConnection();
+                    Statement stm = conex.c.createStatement();
+                    stm.executeUpdate("DELETE FROM STARSHIPS WHERE ID = " + ss.getId());
+                    conex.closeConnection();
+                    starships.clear();
+                    showStarships("");
+                    fillTable(searchTable);
+                    creacionDelete(searchTable);
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+        }
+    }
+
+    public void creacionInsert(AnchorPane anchorPane, TableView searchTable) {
+        //(NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING)
+        Label lblName = new Label("Name: ");
+        TextField txtName = new TextField("");
+        txtName.setMaxWidth(130);
+        Label lblModel = new Label("Model: ");
+        TextField txtModel = new TextField("");
+        txtModel.setMaxWidth(130);
+        Label lblManu = new Label("Manufacturer: ");
+        TextField txtManu = new TextField("");
+        txtManu.setMaxWidth(130);
+        Label lblCost = new Label("CostInCredits: ");
+        TextField txtCost = new TextField("");
+        txtCost.setMaxWidth(130);
+        Label lblLength = new Label("Length: ");
+        TextField txtLength = new TextField("");
+        txtLength.setMaxWidth(130);
+        Label lblCargo = new Label("CargoCapacity: ");
+        TextField txtCargo = new TextField("");
+        txtCargo.setMaxWidth(130);
+        Label lblClass = new Label("Class: ");
+        TextField txtClass = new TextField("");
+        txtClass.setMaxWidth(130);
+        Label lblHiper = new Label("HiperDriveRating: ");
+        TextField txtHiper = new TextField("");
+        txtHiper.setMaxWidth(130);
+        Button btnAgregar = new Button("Agregar");
+        btnAgregar.setOnAction(actionEvent -> {
+            try {
+                Conexion c = new Conexion();
+                c.openConnection();
+                PreparedStatement pstm = c.c.prepareStatement("INSERT INTO STARSHIPS(name, model, manufacturer, costincredits, length, cargocapacity, starshipclass, hiperdriverating) VALUES(?,?,?,?,?,?,?,?)");
+                pstm.setString(1, txtName.getText());
+                pstm.setString(2, txtModel.getText());
+                pstm.setString(3, txtManu.getText());
+                pstm.setString(4, txtCost.getText());
+                pstm.setString(5, txtLength.getText());
+                pstm.setString(6, txtCargo.getText());
+                pstm.setString(7, txtClass.getText());
+                pstm.setString(8, txtHiper.getText());
+                pstm.executeUpdate();
+                starships.clear();
+                showStarships("");
+                fillTable(searchTable);
+                txtName.setText("");
+                txtModel.setText("");
+                txtManu.setText("");
+                txtCost.setText("");
+                txtLength.setText("");
+                txtCargo.setText("");
+                txtClass.setText("");
+                txtHiper.setText("");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        });
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().addAll(lblName, txtName, lblModel, txtModel, lblManu, txtManu, lblCost, txtCost, lblLength, txtLength, lblCargo, txtCargo, lblClass, txtClass, lblHiper, txtHiper, btnAgregar);
+        // prefHeight="120.0" prefWidth="570.0"
+        lblName.setTranslateY(10);
+        txtName.setTranslateY(10);
+        txtName.setTranslateX(40);
+
+        lblModel.setTranslateY(10);
+        txtModel.setTranslateY(10);
+        lblModel.setTranslateX(180);
+        txtModel.setTranslateX(220);
+
+        lblManu.setTranslateY(10);
+        lblManu.setTranslateX(360);
+        txtManu.setTranslateX(440);
+        txtManu.setTranslateY(10);
+
+        lblCost.setTranslateY(40);
+        txtCost.setTranslateY(40);
+        txtCost.setTranslateX(80);
+
+        lblLength.setTranslateY(40);
+        txtLength.setTranslateY(40);
+        lblLength.setTranslateX(220);
+        txtLength.setTranslateX(265);
+
+        lblClass.setTranslateY(40);
+        txtClass.setTranslateY(40);
+        lblClass.setTranslateX(405);
+        txtClass.setTranslateX(440);
+
+        lblCargo.setTranslateY(70);
+        txtCargo.setTranslateY(70);
+        txtCargo.setTranslateX(90);
+
+        lblHiper.setTranslateY(70);
+        txtHiper.setTranslateY(70);
+        lblHiper.setTranslateX(230);
+        txtHiper.setTranslateX(330);
+
+        btnAgregar.setTranslateX(500);
+        btnAgregar.setTranslateY(90);
+    }
+
     /**
      * Metodo que hace el guardado en fichero JSON.
      *
@@ -149,7 +258,6 @@ public class StarshipController {
             File arc = new File(url + ".json");
             ObjectMapper om = new ObjectMapper();
             om.writeValue(arc, starships);
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

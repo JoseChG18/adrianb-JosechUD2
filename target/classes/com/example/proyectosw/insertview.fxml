@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectosw.Controller.MainController">
+   <children>
+      <Label layoutX="195.0" layoutY="14.0" prefHeight="30.0" prefWidth="210.0" text="MENU INSERTAR" textAlignment="CENTER">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbElection" layoutX="192.0" layoutY="66.0" prefHeight="25.0" prefWidth="142.0" promptText="Escoger un tipo" />
+      <Button fx:id="search" layoutX="350.0" layoutY="66.0" mnemonicParsing="false" onAction="#buscarInsert" text="Buscar" />
+      <TableView fx:id="searchTable" layoutX="14.0" layoutY="226.0" prefHeight="160.0" prefWidth="570.0" />
+      <AnchorPane fx:id="anchorPane" layoutX="14.0" layoutY="100.0" prefHeight="120.0" prefWidth="570.0" />
+   </children>
+</AnchorPane>
