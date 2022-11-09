@@ -80,15 +80,15 @@ public class Main extends Application {
                     try {
                         textUser = user.getText();
                         textPass = password.getText();
-                        textUser = "admin";
-                        textPass = "renaido";
+                        /*textUser = "admin";
+                        textPass = "renaido";*/
                         Statement st = c.createStatement();
                         ResultSet rs = st.executeQuery("select usuario,PASS from USUARIOS where usuario = \'"+ textUser+"\'");
                         while (rs.next()) {
                             pass = rs.getString("Pass");
                         }
                         if (pass.equals("")){
-                            throw new RuntimeException("No se encontro tu usuario");
+                            throw new RuntimeException(" Usuario o contraseña incorrecta.");
                         }
                         st.close();
                         rs.close();
@@ -100,7 +100,7 @@ public class Main extends Application {
                     } else {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Login");
-                        alert.setContentText("Usuario o contraseña incorrecta.");
+                        alert.setContentText("Error: Usuario o contraseña incorrecta.");
                         alert.showAndWait();
                     }
                     break;
@@ -111,10 +111,11 @@ public class Main extends Application {
                         PreparedStatement ps = c.prepareStatement("insert into USUARIOS (usuario, pass) values (?,?)");
                         ps.setString(1,textUser);
                         ps.setString(2,BCrypt.hashpw(textPass,BCrypt.gensalt()));
+
                         ps.executeUpdate();
                         loginVent(loginStage);
                     }catch(SQLException ex){
-                        throw new RuntimeException(ex);
+                        throw new RuntimeException("Ya existe ese usuario");
                     }
                     break;
                 case "CAMBIAR CONTRASEÑA":
@@ -130,18 +131,14 @@ public class Main extends Application {
                         st.close();
                         loginVent(loginStage);
                     }catch(SQLException ex){
-                        throw new RuntimeException(ex);
+                        throw new RuntimeException("Error en el cambio de contraseña");
                     }
                     break;
-                default:
-                    System.out.println("pollo");
-                    break;
-
             }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Login");
-            alert.setContentText("Error al iniciar sesion:" + e.getMessage());
+            alert.setContentText("Error:" + e.getMessage());
             alert.showAndWait();
         }
 
