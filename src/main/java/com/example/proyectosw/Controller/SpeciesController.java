@@ -30,7 +30,7 @@ public class SpeciesController {
     private List<Species> species = new ArrayList<>();
 
     /**
-     * Metodo que hace la llamada a la API.
+     * Metodo que hace la llamada a la base de datos.
      *
      * @param name
      */
@@ -107,6 +107,10 @@ public class SpeciesController {
         }
     }
 
+    /***
+     *
+     * @param searchTable
+     */
     public void creacionDelete(TableView searchTable){
         TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
         searchTable.getColumns().add(col_buttonDelete);
@@ -130,6 +134,11 @@ public class SpeciesController {
         }
     }
 
+    /***
+     *
+     * @param anchorPane
+     * @param searchTable
+     */
     public void creacionInsert(AnchorPane anchorPane, TableView searchTable){
         //(NAME, CLASSIFICATION, HOMEWORLD, LANGUAGE, AVERAGELIFESPAN)
         Label lblName = new Label("Name: ");
@@ -216,7 +225,7 @@ public class SpeciesController {
      *
      * @param lista
      * @return List<Character>
-     */
+
     private static List<Species> sortList(List<Species> lista) {
         List<Species> orderedList = new ArrayList<>();
         ArrayList<String> nombres = new ArrayList<>();

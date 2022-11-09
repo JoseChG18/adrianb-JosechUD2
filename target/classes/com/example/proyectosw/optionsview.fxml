@@ -7,7 +7,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectosw.Main">
    <children>
       <Button layoutX="361.0" layoutY="120.0" mnemonicParsing="false" onAction="#insertBD" prefHeight="44.0" prefWidth="136.0" text="Insertar" />
-      <Button layoutX="103.0" layoutY="258.0" mnemonicParsing="false" onAction="#modifyBD" prefHeight="44.0" prefWidth="136.0" text="Modificar(Coming soon)" textAlignment="CENTER" />
+      <Button layoutX="103.0" layoutY="258.0" mnemonicParsing="false"  prefHeight="44.0" prefWidth="136.0" text="Modificar(Coming soon)" textAlignment="CENTER" />
       <Button layoutX="361.0" layoutY="258.0" mnemonicParsing="false" onAction="#deleteBD" prefHeight="44.0" prefWidth="136.0" text="Eliminar" />
       <Button layoutX="103.0" layoutY="120.0" mnemonicParsing="false" onAction="#selectBD" prefHeight="44.0" prefWidth="136.0" text="Consultar" />
       <Label layoutX="171.0" layoutY="30.0" prefHeight="44.0" prefWidth="258.0" text="MENU DE OPCIONES">

@@ -15,7 +15,7 @@ import java.util.*;
 public class PlanetController {
     private List<Planet> planets = new ArrayList<>();
     /**
-     * Metodo que hace la llamada a la API.
+     * Metodo que hace la llamada a la base de datos.
      * @param name
      */
 
@@ -90,6 +90,10 @@ public class PlanetController {
         }
     }
 
+    /***
+     *
+     * @param searchTable
+     */
     public void creacionDelete(TableView searchTable){
         TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
         searchTable.getColumns().add(col_buttonDelete);
@@ -113,6 +117,11 @@ public class PlanetController {
         }
     }
 
+    /***
+     *
+     * @param anchorPane
+     * @param searchTable
+     */
     public void creacionInsert(AnchorPane anchorPane, TableView searchTable){
 
         Label lblName = new Label("Name: ");
@@ -200,7 +209,7 @@ public class PlanetController {
      * Metodo que hace la ordenación del resultado de la API.
      * @param lista
      * @return List<Character>
-     */
+
     private static List<Planet> sortList(List<Planet> lista) {
         List<Planet> orderedList = new ArrayList<>();
         ArrayList<String> nombres = new ArrayList<>();

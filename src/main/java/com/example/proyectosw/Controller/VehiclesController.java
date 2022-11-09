@@ -33,7 +33,7 @@ import java.util.List;
 public class VehiclesController {
     private List<Vehicle> vehicles = new ArrayList<>();
     /**
-     * Metodo que hace la llamada a la API.
+     * Metodo que hace la llamada a la base de datos.
      * @param name
      */
     public void showVehicles(String name){
@@ -120,6 +120,10 @@ public class VehiclesController {
         }
     }
 
+    /***
+     *
+     * @param searchTable
+     */
     public void creacionDelete(TableView searchTable){
         TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
         searchTable.getColumns().add(col_buttonDelete);
@@ -143,6 +147,11 @@ public class VehiclesController {
         }
     }
 
+    /***
+     *
+     * @param anchorPane
+     * @param searchTable
+     */
     public void creacionInsert(AnchorPane anchorPane, TableView searchTable) {
         //(NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, PASSENGERS, CARGOCAPACITY, VEHICLECLASS)
         Label lblName = new Label("Name: ");
@@ -311,7 +320,7 @@ public class VehiclesController {
      * Metodo que hace la ordenación del resultado de la API.
      * @param lista
      * @return List<Character>
-     */
+
     private static List<Vehicle> sortList(List<Vehicle> lista) {
         List<Vehicle> orderedList = new ArrayList<>();
         ArrayList<String> nombres = new ArrayList<>();
@@ -329,5 +338,5 @@ public class VehiclesController {
 
         }
         return orderedList;
-    }
+    } */
 }

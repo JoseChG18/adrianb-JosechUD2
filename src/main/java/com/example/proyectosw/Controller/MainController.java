@@ -124,7 +124,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Evento que se ejecuta para guardar los resultados en cada tipo de fichero.
+     * Evento que se ejecuta para guardar los resultados en ficheros JSON.
      *
      * @param actionEvent
      */
@@ -198,6 +198,10 @@ public class MainController implements Initializable {
         }
     }
 
+    /***
+     *
+     * @param actionEvent
+     */
     public void buscarDelete(ActionEvent actionEvent){
         try{
             String option = getComboBox();
@@ -247,6 +251,11 @@ public class MainController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
+
+    /***
+     *
+     * @param actionEvent
+     */
     public void buscarInsert(ActionEvent actionEvent){
         try{
             String option = getComboBox();

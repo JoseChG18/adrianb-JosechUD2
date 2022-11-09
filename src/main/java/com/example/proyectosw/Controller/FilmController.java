@@ -21,7 +21,7 @@ import java.util.Locale;
 public class FilmController {
     private List<Film> films = new ArrayList<>();
     /**
-     * Metodo que hace la llamada a la API.
+     * Metodo que hace la llamada a la base de datos.
      * @param name
      */
     public void showFilms(String name){
@@ -89,6 +89,10 @@ public class FilmController {
         }
     }
 
+    /***
+     *
+     * @param searchTable
+     */
     public void creacionDelete(TableView searchTable){
         TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
         searchTable.getColumns().add(col_buttonDelete);
@@ -112,6 +116,11 @@ public class FilmController {
         }
     }
 
+    /***
+     *
+     * @param anchorPane
+     * @param searchTable
+     */
     public void creacionInsert(AnchorPane anchorPane, TableView searchTable){
 
         Label lblTitle = new Label("Title: ");

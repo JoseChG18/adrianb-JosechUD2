@@ -79,8 +79,6 @@ public class Main extends Application {
                     try {
                         textUser = user.getText();
                         textPass = password.getText();
-                        /*textUser = "admin";
-                        textPass = "renaido";*/
                         Statement st = c.createStatement();
                         ResultSet rs = st.executeQuery("select usuario,PASS from USUARIOS where usuario = \'"+ textUser+"\'");
                         while (rs.next()) {

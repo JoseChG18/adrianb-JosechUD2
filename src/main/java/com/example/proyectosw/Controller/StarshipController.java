@@ -35,8 +35,7 @@ public class StarshipController {
     private List<Starship> starships = new ArrayList<>();
 
     /**
-     * Metodo que hace la llamada a la API.
-     *
+     * Metodo que hace la llamada a la base de datos.
      * @param name
      */
     public void showStarships(String name) {
@@ -125,6 +124,10 @@ public class StarshipController {
         }
     }
 
+    /***
+     *
+     * @param searchTable
+     */
     public void creacionDelete(TableView searchTable) {
         TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
         searchTable.getColumns().add(col_buttonDelete);
@@ -148,6 +151,11 @@ public class StarshipController {
         }
     }
 
+    /**
+     *
+     * @param anchorPane
+     * @param searchTable
+     */
     public void creacionInsert(AnchorPane anchorPane, TableView searchTable) {
         //(NAME, MODEL, MANUFACTURER, COSTINCREDITS, LENGTH, CARGOCAPACITY, STARSHIPCLASS,HIPERDRIVERATING)
         Label lblName = new Label("Name: ");
@@ -268,7 +276,7 @@ public class StarshipController {
      *
      * @param lista
      * @return List<Character>
-     */
+
     private static List<Starship> sortList(List<Starship> lista) {
         List<Starship> orderedList = new ArrayList<>();
         ArrayList<String> nombres = new ArrayList<>();

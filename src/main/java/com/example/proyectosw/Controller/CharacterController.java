@@ -19,7 +19,7 @@ public class CharacterController {
     private List<Character> characters = new ArrayList();
 
     /**
-     * Metodo que hace la llamada a la API.
+     * Metodo que hace la llamada a la base de datos.
      *
      * @param name
      */
@@ -100,6 +100,10 @@ public class CharacterController {
         }
     }
 
+    /***
+     *
+     * @param searchTable
+     */
     public void creacionDelete(TableView searchTable){
         TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
         searchTable.getColumns().add(col_buttonDelete);
@@ -122,6 +126,12 @@ public class CharacterController {
             });
         }
     }
+
+    /***
+     *
+     * @param anchorPane
+     * @param searchTable
+     */
     public void creacionInsert(AnchorPane anchorPane,TableView searchTable){
 
         Label lblName = new Label("Name: ");
@@ -215,7 +225,7 @@ public class CharacterController {
      *
      * @param lista
      * @return List<Character>
-     */
+
     private static List<Character> sortList(List<Character> lista) {
         List<Character> orderedList = new ArrayList<>();
         ArrayList<String> nombres = new ArrayList<>();
