@@ -40,6 +40,7 @@ public class CharacterController {
                             rst.getString("SKIN_COLOR"),
                             rst.getString("HOMEWORLD"),
                             rst.getString("HAIR_COLOR")));
+
                 }
             } else {
                 PreparedStatement pstm = c.c.prepareStatement(

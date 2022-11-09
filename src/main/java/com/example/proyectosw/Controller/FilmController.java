@@ -12,8 +12,11 @@ import java.io.File;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FilmController {
     private List<Film> films = new ArrayList<>();
@@ -116,7 +119,8 @@ public class FilmController {
         Label lblDirector = new Label("Director: ");
         TextField txtDirector = new TextField("");
         Label lblReleasedate = new Label("Release Date: ");
-        TextField txtReleasedate = new TextField("");
+        DatePicker txtReleasedate = new DatePicker();
+        //TextField txtReleasedate = new TextField("");
         Label lblProducer = new Label("Producer: ");
         TextField txtProducer = new TextField("");
         Button btnAgregar = new Button("Agregar");
@@ -127,8 +131,11 @@ public class FilmController {
                 PreparedStatement pstm = c.c.prepareStatement("INSERT INTO FILMS(TITLE, DIRECTOR, RELEASEDATE, PRODUCER) VALUES(?,?,?,?)");
                 pstm.setString(1,txtTitle.getText());
                 pstm.setString(2,txtDirector.getText());
-                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-                pstm.setDate(3, Date.valueOf(formato.format(txtReleasedate.getText())));
+                /*
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(txtReleasedate.getText(),formato);
+                 */
+                pstm.setDate(3, Date.valueOf(txtReleasedate.getValue()));
                 pstm.setString(4,txtProducer.getText());
                 pstm.executeUpdate();
                 films.clear();
@@ -136,7 +143,7 @@ public class FilmController {
                 fillTable(searchTable);
                 txtTitle.setText("");
                 txtDirector.setText("");
-                txtReleasedate.setText("");
+                txtReleasedate.setValue(null);
                 txtProducer.setText("");
             }catch(SQLException ex){
                 System.out.println(ex.getMessage());
@@ -160,8 +167,8 @@ public class FilmController {
 
         lblProducer.setTranslateY(40);
         txtProducer.setTranslateY(40);
-        lblProducer.setTranslateX(240);
-        txtProducer.setTranslateX(300);
+        lblProducer.setTranslateX(260);
+        txtProducer.setTranslateX(320);
 
         btnAgregar.setTranslateX(500);
         btnAgregar.setTranslateY(90);

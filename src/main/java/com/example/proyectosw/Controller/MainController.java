@@ -99,17 +99,17 @@ public class MainController implements Initializable {
                     case "Species":
                         SpeciesController sc = new SpeciesController();
                         sc.showSpecies(getName());
-                        sc.fillTable(searchTable,"select");
+                        sc.fillTable(searchTable);
                         break;
                     case "Vehicles":
                         VehiclesController vc = new VehiclesController();
                         vc.showVehicles(getName());
-                        vc.fillTable(searchTable,"select");
+                        vc.fillTable(searchTable);
                         break;
                     case "Starships":
                         StarshipController ssc = new StarshipController();
                         ssc.showStarships(getName());
-                        ssc.fillTable(searchTable,"select");
+                        ssc.fillTable(searchTable);
                         break;
                 }
             } else {
@@ -225,18 +225,21 @@ public class MainController implements Initializable {
                     case "Species":
                         SpeciesController sc = new SpeciesController();
                         sc.showSpecies("");
-                        sc.fillTable(searchTable,"delete");
+                        sc.fillTable(searchTable);
+                        sc.creacionDelete(searchTable);
                         break;
 
                     case "Vehicles":
                         VehiclesController vc = new VehiclesController();
                         vc.showVehicles("");
-                        vc.fillTable(searchTable,"delete");
+                        vc.fillTable(searchTable);
+                        vc.creacionDelete(searchTable);
                         break;
                     case "Starships":
                         StarshipController ssc = new StarshipController();
                         ssc.showStarships("");
-                        ssc.fillTable(searchTable,"delete");
+                        ssc.fillTable(searchTable);
+                        ssc.creacionDelete(searchTable);
                         break;
                 }
             }
@@ -271,18 +274,21 @@ public class MainController implements Initializable {
                     case "Species":
                         SpeciesController sc = new SpeciesController();
                         sc.showSpecies("");
-                        sc.fillTable(searchTable,"delete");
+                        sc.creacionInsert(anchorPane,searchTable);
+                        sc.fillTable(searchTable);
                         break;
 
                     case "Vehicles":
                         VehiclesController vc = new VehiclesController();
                         vc.showVehicles("");
-                        vc.fillTable(searchTable,"delete");
+                        vc.creacionInsert(anchorPane,searchTable);
+                        vc.fillTable(searchTable);
                         break;
                     case "Starships":
                         StarshipController ssc = new StarshipController();
                         ssc.showStarships("");
-                        ssc.fillTable(searchTable,"delete");
+                        ssc.creacionInsert(anchorPane,searchTable);
+                        ssc.fillTable(searchTable);
                         break;
                 }
             }
