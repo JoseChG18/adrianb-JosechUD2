@@ -15,7 +15,7 @@
             <Label fx:id="lblPass" layoutX="5.0" layoutY="89.0" prefHeight="17.0" prefWidth="81.0" text="New password" />
             <TextField fx:id="user" layoutX="89.0" layoutY="53.0" />
             <PasswordField fx:id="password" layoutX="89.0" layoutY="85.0" onKeyPressed="#pressEnter" />
-            <Button fx:id="btnLogin" layoutX="96.0" layoutY="124.0" mnemonicParsing="false" onAction="#btnEvent" text="Registrar" />
+            <Button fx:id="btnLogin" layoutX="96.0" layoutY="124.0" mnemonicParsing="false" onAction="#btnEvent" text="Cambiar" />
             <Label fx:id="cabecera" layoutX="24.0" layoutY="14.0" prefHeight="33.0" prefWidth="219.0" text="CAMBIAR CONTRASEÑA" textAlignment="CENTER">
                 <font>
                     <Font size="20.0" />

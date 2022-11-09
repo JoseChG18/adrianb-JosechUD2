@@ -129,10 +129,10 @@ public class Main extends Application {
                     try {
                         String query;
                         textUser = user.getText();
-                        textPass = BCrypt.hashpw(textPass,BCrypt.gensalt());
+                        textPass = BCrypt.hashpw(password.getText(),BCrypt.gensalt());
                         Statement st = c.createStatement();
                         ResultSet rs = st.executeQuery("select * from USUARIOS where usuario = \'"+ textUser+"\'");
-                        if (rs.getFetchSize() < 1){
+                        if (!rs.next()){
                             throw new RuntimeException("Error en el cambio de contraseña");
                         }
                         if(textPass.length()>255){

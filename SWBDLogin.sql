@@ -11,5 +11,5 @@ PASS VARCHAR(255),
 primary key(usuario)
 );
 
-/*insert into USUARIOS(USUARIO,PASS) VALUES ("ADMIN","renaido")*/
 
+select * from usuarios;
