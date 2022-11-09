@@ -70,7 +70,7 @@ public class Main extends Application {
             try {
                 c = DriverManager.getConnection(URL, userBD, passBD);
             } catch (Exception e){
-                System.out.println("Error estableciendo conexion");
+                throw new RuntimeException("No se pudo establecer la conexión");
             }
             String textUser = "";
             String textPass = "";
@@ -88,7 +88,7 @@ public class Main extends Application {
                             pass = rs.getString("Pass");
                         }
                         if (pass.equals("")){
-                            throw new RuntimeException(" Usuario o contraseña incorrecta.");
+                            throw new RuntimeException("Usuario o contraseña incorrecta.");
                         }
                         st.close();
                         rs.close();
@@ -107,14 +107,21 @@ public class Main extends Application {
                 case "REGISTRAR":
                     try {
                         textUser = user.getText();
+                        if (textUser.length() > 50){
+                            throw new RuntimeException("Nombre de usuario demasiado largo");
+                        }
                         textPass = password.getText();
                         PreparedStatement ps = c.prepareStatement("insert into USUARIOS (usuario, pass) values (?,?)");
                         ps.setString(1,textUser);
-                        ps.setString(2,BCrypt.hashpw(textPass,BCrypt.gensalt()));
-
+                        String pass1 = BCrypt.hashpw(textPass,BCrypt.gensalt());
+                        if (pass1.length() > 255){
+                            throw new RuntimeException("Contraseña demasiado larga");
+                        }
+                        ps.setString(2,pass1);
                         ps.executeUpdate();
                         loginVent(loginStage);
                     }catch(SQLException ex){
+                        System.out.println(ex.getMessage());
                         throw new RuntimeException("Ya existe ese usuario");
                     }
                     break;
@@ -122,11 +129,18 @@ public class Main extends Application {
                     try {
                         String query;
                         textUser = user.getText();
-                        textPass = password.getText();
-                        query = "Update usuarios\n" +
-                                "set pass = \'"+BCrypt.hashpw(textPass,BCrypt.gensalt())+"\'\n" +
-                                "where usuario = \'"+textUser+"\'";
+                        textPass = BCrypt.hashpw(textPass,BCrypt.gensalt());
                         Statement st = c.createStatement();
+                        ResultSet rs = st.executeQuery("select * from USUARIOS where usuario = \'"+ textUser+"\'");
+                        if (rs.getFetchSize() < 1){
+                            throw new RuntimeException("Error en el cambio de contraseña");
+                        }
+                        if(textPass.length()>255){
+                            throw new RuntimeException("Nueva contraseña demasiado larga");
+                        }
+                        query = "Update usuarios\n" +
+                                "set pass = \'"+textPass+"\'\n" +
+                                "where usuario = \'"+textUser+"\'";
                         st.executeUpdate(query);
                         st.close();
                         loginVent(loginStage);
@@ -138,7 +152,7 @@ public class Main extends Application {
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Login");
-            alert.setContentText("Error:" + e.getMessage());
+            alert.setContentText("Error: " + e.getMessage());
             alert.showAndWait();
         }
 
