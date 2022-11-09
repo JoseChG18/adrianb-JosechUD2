@@ -21,9 +21,9 @@ public class Character implements Serializable {
     private String skinColor;
     @JsonProperty("hair_color")
     private String hairColor;
-    private Button eliminar;
-    private Button agregar;
-    private Button modificar;
+    private final Button eliminar;
+    private final Button agregar;
+    private final Button modificar;
 
     public Character(int ID, String NAME, String GENDER, String SKIN_COLOR, String HOMEWORLD, String HAIR_COLOR){
         this.id = ID;

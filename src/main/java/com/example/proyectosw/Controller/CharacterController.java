@@ -1,19 +1,11 @@
 package com.example.proyectosw.Controller;
 
-import com.almasb.fxgl.scene3d.Cone;
 import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.Character;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,7 +70,7 @@ public class CharacterController {
      *
      * @param searchTable
      */
-    public void fillTable(TableView searchTable, String option) {
+    public void fillTable(TableView searchTable) {
         if (characters.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Character, Integer> col_Id = new TableColumn<>("ID");
@@ -97,12 +89,6 @@ public class CharacterController {
             col_Homeworld.setCellValueFactory(new PropertyValueFactory<>("homeworld"));
             col_HairColor.setCellValueFactory(new PropertyValueFactory<>("hairColor"));
 
-            if (option.equals("delete")) {
-                creacionDelete(searchTable);
-            }
-            if (option.equals("update")){
-                creacionUpdate(searchTable);
-            }
             searchTable.getItems().clear();
             searchTable.getItems().addAll(characters);
         } else {
@@ -127,7 +113,8 @@ public class CharacterController {
                     conex.closeConnection();
                     characters.clear();
                     showCharacter("");
-                    fillTable(searchTable,"delete");
+                    fillTable(searchTable);
+                    creacionDelete(searchTable);
                 } catch (SQLException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -160,7 +147,12 @@ public class CharacterController {
                 pstm.executeUpdate();
                 characters.clear();
                 showCharacter("");
-                fillTable(searchTable,"insert");
+                fillTable(searchTable);
+                txtName.setText("");
+                txtGender.setText("");
+                txtSkincolor.setText("");
+                txtHomeworld.setText("");
+                txtHaircolor.setText("");
             }catch(SQLException ex){
                 System.out.println(ex.getMessage());
             }
@@ -168,34 +160,38 @@ public class CharacterController {
         anchorPane.getChildren().clear();
         anchorPane.getChildren().addAll(lblName, txtName, lblGender, txtGender, lblHomeworld, txtHomeworld, lblSkincolor, txtSkincolor, lblHaircolor, txtHaircolor, btnAgregar);
         // prefHeight="120.0" prefWidth="570.0"
+        lblName.setTranslateY(10);
+        txtName.setTranslateY(10);
         txtName.setTranslateX(40);
 
+        lblGender.setTranslateY(10);
+        txtGender.setTranslateY(10);
         lblGender.setTranslateX(200);
         txtGender.setTranslateX(250);
 
-        lblHomeworld.setTranslateY(30);
+        lblHomeworld.setTranslateY(40);
         txtHomeworld.setTranslateX(70);
-        txtHomeworld.setTranslateY(30);
+        txtHomeworld.setTranslateY(40);
 
-        lblHaircolor.setTranslateY(30);
-        txtHaircolor.setTranslateY(30);
+        lblHaircolor.setTranslateY(40);
+        txtHaircolor.setTranslateY(40);
         lblHaircolor.setTranslateX(230);
         txtHaircolor.setTranslateX(290);
 
 
-        lblSkincolor.setTranslateY(60);
-        txtSkincolor.setTranslateY(60);
+        lblSkincolor.setTranslateY(70);
+        txtSkincolor.setTranslateY(70);
         txtSkincolor.setTranslateX(60);
 
 
         btnAgregar.setTranslateX(500);
         btnAgregar.setTranslateY(90);
     }
-    public void creacionUpdate(TableView searchTable){
+    /*public void creacionUpdate(TableView searchTable){
         TableColumn<Character, Void> col_buttonUpdate = new TableColumn<>("Modificar");
         searchTable.getColumns().add(col_buttonUpdate);
         col_buttonUpdate.setCellValueFactory(new PropertyValueFactory<>("update"));
-    }
+    }*/
 
     /**
      * Metodo que hace el guardado en fichero JSON.

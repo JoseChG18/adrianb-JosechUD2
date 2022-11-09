@@ -84,17 +84,17 @@ public class MainController implements Initializable {
                     case "People":
                         CharacterController cc = new CharacterController();
                         cc.showCharacter(getName());
-                        cc.fillTable(searchTable,"select");
+                        cc.fillTable(searchTable);
                         break;
                     case "Planets":
                         PlanetController pc = new PlanetController();
                         pc.showPlanets(getName());
-                        pc.fillTable(searchTable,"select");
+                        pc.fillTable(searchTable);
                         break;
                     case "Films":
                         FilmController fc = new FilmController();
                         fc.showFilms(getName());
-                        fc.fillTable(searchTable,"select");
+                        fc.fillTable(searchTable);
                         break;
                     case "Species":
                         SpeciesController sc = new SpeciesController();
@@ -207,17 +207,20 @@ public class MainController implements Initializable {
                     case "People":
                         CharacterController c = new CharacterController();
                         c.showCharacter("");
-                        c.fillTable(searchTable,"delete");
+                        c.fillTable(searchTable);
+                        c.creacionDelete(searchTable);
                         break;
                     case "Planets":
                         PlanetController pc = new PlanetController();
                         pc.showPlanets("");
-                        pc.fillTable(searchTable,"delete");
+                        pc.fillTable(searchTable);
+                        pc.creacionDelete(searchTable);
                         break;
                     case "Films":
                         FilmController fc = new FilmController();
                         fc.showFilms("");
-                        fc.fillTable(searchTable,"delete");
+                        fc.fillTable(searchTable);
+                        fc.creacionDelete(searchTable);
                         break;
                     case "Species":
                         SpeciesController sc = new SpeciesController();
@@ -251,17 +254,19 @@ public class MainController implements Initializable {
                         CharacterController c = new CharacterController();
                         c.showCharacter("");
                         c.creacionInsert(anchorPane,searchTable);
-                        c.fillTable(searchTable,"insert");
+                        c.fillTable(searchTable);
                         break;
                     case "Planets":
                         PlanetController pc = new PlanetController();
                         pc.showPlanets("");
-                        pc.fillTable(searchTable,"delete");
+                        pc.creacionInsert(anchorPane,searchTable);
+                        pc.fillTable(searchTable);
                         break;
                     case "Films":
                         FilmController fc = new FilmController();
                         fc.showFilms("");
-                        fc.fillTable(searchTable,"delete");
+                        fc.creacionInsert(anchorPane,searchTable);
+                        fc.fillTable(searchTable);
                         break;
                     case "Species":
                         SpeciesController sc = new SpeciesController();
@@ -285,7 +290,7 @@ public class MainController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-    public void buscarUpdate(ActionEvent actionEvent){
+    /*public void buscarUpdate(ActionEvent actionEvent){
         try{
             String option = getComboBox();
 
@@ -294,12 +299,12 @@ public class MainController implements Initializable {
                     case "People":
                         CharacterController c = new CharacterController();
                         c.showCharacter("");
-                        c.fillTable(searchTable,"update");
+                        c.fillTable(searchTable);
                         break;
                     case "Planets":
                         PlanetController pc = new PlanetController();
                         pc.showPlanets("");
-                        pc.fillTable(searchTable,"update");
+                        pc.fillTable(searchTable);
                         break;
                     case "Films":
                         FilmController fc = new FilmController();
@@ -327,6 +332,6 @@ public class MainController implements Initializable {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 
 }

@@ -13,7 +13,7 @@
       </Label>
       <Button fx:id="search" layoutX="357.0" layoutY="59.0" text="Buscar" onAction="#buscarDelete"/>
       <ComboBox fx:id="cbElection" layoutX="191.0" layoutY="59.0" prefWidth="150.0" promptText="--Elija un tipo--" />
-      <TableView fx:id="searchTable" layoutX="17.0" layoutY="102.0" prefHeight="284.0" prefWidth="567.0">
+      <TableView fx:id="searchTable" layoutX="17.0" layoutY="102.0" prefHeight="284.0" prefWidth="570.0">
         <columns>
         </columns>
       </TableView>

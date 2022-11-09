@@ -2,16 +2,16 @@ package com.example.proyectosw.Controller;
 
 import com.example.proyectosw.Conexion;
 import com.example.proyectosw.model.*;
+import com.example.proyectosw.model.Character;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+
 import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class FilmController {
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
      */
-    public void fillTable(TableView searchTable, String option) {
+    public void fillTable(TableView searchTable) {
         if (films.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Film, Integer> col_id = new TableColumn<>("Nº film");
@@ -85,6 +85,88 @@ public class FilmController {
             alert.showAndWait();
         }
     }
+
+    public void creacionDelete(TableView searchTable){
+        TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
+        searchTable.getColumns().add(col_buttonDelete);
+        col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
+        for (Film f : films) {
+            f.getEliminar().setOnAction(actionEvent -> {
+                try {
+                    Conexion conex = new Conexion();
+                    conex.openConnection();
+                    Statement stm = conex.c.createStatement();
+                    stm.executeUpdate("DELETE FROM FILMS WHERE ID = " + f.getId());
+                    conex.closeConnection();
+                    films.clear();
+                    showFilms("");
+                    fillTable(searchTable);
+                    creacionDelete(searchTable);
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+        }
+    }
+
+    public void creacionInsert(AnchorPane anchorPane, TableView searchTable){
+
+        Label lblTitle = new Label("Title: ");
+        TextField txtTitle = new TextField("");
+        Label lblDirector = new Label("Director: ");
+        TextField txtDirector = new TextField("");
+        Label lblReleasedate = new Label("Release Date: ");
+        TextField txtReleasedate = new TextField("");
+        Label lblProducer = new Label("Producer: ");
+        TextField txtProducer = new TextField("");
+        Button btnAgregar = new Button("Agregar");
+        btnAgregar.setOnAction(actionEvent -> {
+            try{
+                Conexion c = new Conexion();
+                c.openConnection();
+                PreparedStatement pstm = c.c.prepareStatement("INSERT INTO FILMS(TITLE, DIRECTOR, RELEASEDATE, PRODUCER) VALUES(?,?,?,?)");
+                pstm.setString(1,txtTitle.getText());
+                pstm.setString(2,txtDirector.getText());
+                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+                pstm.setDate(3, Date.valueOf(formato.format(txtReleasedate.getText())));
+                pstm.setString(4,txtProducer.getText());
+                pstm.executeUpdate();
+                films.clear();
+                showFilms("");
+                fillTable(searchTable);
+                txtTitle.setText("");
+                txtDirector.setText("");
+                txtReleasedate.setText("");
+                txtProducer.setText("");
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        });
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().addAll(lblTitle, txtTitle, lblDirector, txtDirector, lblReleasedate, txtReleasedate, lblProducer, txtProducer,  btnAgregar);
+        // prefHeight="120.0" prefWidth="570.0"
+        lblTitle.setTranslateY(10);
+        txtTitle.setTranslateY(10);
+        txtTitle.setTranslateX(30);
+
+        lblDirector.setTranslateY(10);
+        txtDirector.setTranslateY(10);
+        lblDirector.setTranslateX(190);
+        txtDirector.setTranslateX(245);
+
+        lblReleasedate.setTranslateY(40);
+        txtReleasedate.setTranslateY(40);
+        txtReleasedate.setTranslateX(80);
+
+        lblProducer.setTranslateY(40);
+        txtProducer.setTranslateY(40);
+        lblProducer.setTranslateX(240);
+        txtProducer.setTranslateX(300);
+
+        btnAgregar.setTranslateX(500);
+        btnAgregar.setTranslateY(90);
+    }
+
     /**
      * Metodo que hace el guardado en fichero JSON.
      * @param url

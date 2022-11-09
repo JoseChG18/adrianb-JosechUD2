@@ -13,7 +13,7 @@
       </Label>
       <ComboBox fx:id="cbElection" layoutX="192.0" layoutY="66.0" prefHeight="25.0" prefWidth="142.0" promptText="Escoger un tipo" />
       <Button fx:id="search" layoutX="350.0" layoutY="66.0" mnemonicParsing="false" onAction="#buscarInsert" text="Buscar" />
-      <TableView fx:id="searchTable" layoutX="14.0" layoutY="226.0" prefHeight="159.0" prefWidth="571.0" />
+      <TableView fx:id="searchTable" layoutX="14.0" layoutY="226.0" prefHeight="160.0" prefWidth="570.0" />
       <AnchorPane fx:id="anchorPane" layoutX="14.0" layoutY="100.0" prefHeight="120.0" prefWidth="570.0" />
    </children>
 </AnchorPane>

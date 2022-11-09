@@ -1,10 +1,13 @@
 package com.example.proyectosw.Controller;
 
 import com.example.proyectosw.Conexion;
+import com.example.proyectosw.model.Character;
 import com.example.proyectosw.model.Planet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+
 import java.io.*;
 import java.sql.*;
 import java.util.*;
@@ -59,7 +62,7 @@ public class PlanetController {
      * Metodo para llenar la tabla tanto con las columnas y datos.
      * @param searchTable
      */
-    public void fillTable(TableView searchTable, String option) {
+    public void fillTable(TableView searchTable) {
         if (planets.size() > 0) {
             searchTable.getColumns().clear();
             TableColumn<Planet, Integer> col_Id = new TableColumn<>("ID");
@@ -86,6 +89,98 @@ public class PlanetController {
             alert.showAndWait();
         }
     }
+
+    public void creacionDelete(TableView searchTable){
+        TableColumn<Character, Void> col_buttonDelete = new TableColumn<>("Eliminar");
+        searchTable.getColumns().add(col_buttonDelete);
+        col_buttonDelete.setCellValueFactory(new PropertyValueFactory<>("eliminar"));
+        for (Planet p : planets) {
+            p.getEliminar().setOnAction(actionEvent -> {
+                try {
+                    Conexion conex = new Conexion();
+                    conex.openConnection();
+                    Statement stm = conex.c.createStatement();
+                    stm.executeUpdate("DELETE FROM PLANETS WHERE ID = " + p.getId());
+                    conex.closeConnection();
+                    planets.clear();
+                    showPlanets("");
+                    fillTable(searchTable);
+                    creacionDelete(searchTable);
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+        }
+    }
+
+    public void creacionInsert(AnchorPane anchorPane, TableView searchTable){
+
+        Label lblName = new Label("Name: ");
+        TextField txtName = new TextField("");
+        Label lblTerrain = new Label("Terrain: ");
+        TextField txtTerrain = new TextField("");
+        Label lblGravity = new Label("Gravity: ");
+        TextField txtGravity = new TextField("");
+        Label lblClimate = new Label("Climate: ");
+        TextField txtClimate = new TextField("");
+        Label lblPopulation = new Label("Population: ");
+        TextField txtPopulation = new TextField("");
+        Button btnAgregar = new Button("Agregar");
+        btnAgregar.setOnAction(actionEvent -> {
+            try{
+                Conexion c = new Conexion();
+                c.openConnection();
+                PreparedStatement pstm = c.c.prepareStatement("INSERT INTO PLANETS(NAME, TERRAIN, GRAVITY, CLIMATE, POPULATION) VALUES(?,?,?,?,?)");
+                pstm.setString(1,txtName.getText());
+                pstm.setString(2,txtTerrain.getText());
+                pstm.setString(3,txtGravity.getText());
+                pstm.setString(4,txtClimate.getText());
+                pstm.setString(5,txtPopulation.getText());
+                pstm.executeUpdate();
+                planets.clear();
+                showPlanets("");
+                fillTable(searchTable);
+                txtName.setText("");
+                txtTerrain.setText("");
+                txtGravity.setText("");
+                txtClimate.setText("");
+                txtPopulation.setText("");
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        });
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().addAll(lblName, txtName, lblTerrain, txtTerrain, lblGravity, txtGravity, lblClimate, txtClimate, lblPopulation, txtPopulation, btnAgregar);
+        // prefHeight="120.0" prefWidth="570.0"
+        lblName.setTranslateY(10);
+        txtName.setTranslateY(10);
+        txtName.setTranslateX(40);
+
+        lblTerrain.setTranslateY(10);
+        txtTerrain.setTranslateY(10);
+        lblTerrain.setTranslateX(200);
+        txtTerrain.setTranslateX(245);
+
+        lblGravity.setTranslateY(40);
+        txtGravity.setTranslateX(45);
+        txtGravity.setTranslateY(40);
+
+        lblClimate.setTranslateY(40);
+        txtClimate.setTranslateY(40);
+        lblClimate.setTranslateX(200);
+        txtClimate.setTranslateX(245);
+
+
+        lblPopulation.setTranslateY(70);
+        txtPopulation.setTranslateY(70);
+        txtPopulation.setTranslateX(65);
+
+
+        btnAgregar.setTranslateX(500);
+        btnAgregar.setTranslateY(90);
+    }
+
+
     /**
      * Metodo que hace el guardado en fichero JSON.
      * @param url
