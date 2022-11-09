@@ -1,17 +1,21 @@
 # Memoria
 ## 1. Introducción.
-Para este proyecto se ha utilizado la API SWAPI (Star Wars API). La aplicación sirve para poder consultarla. 
+Para este proyecto se ha utilizado una base de datos basado en los datos la API SWAPI (Star Wars API). La aplicación sirve para poder consultarla. 
 Podemos buscar los nombres de personajes, planetas, las 6 primeras películas, especies existentes en el universo de 
-Star Wars, naves y vehículos. En estas dos últimas también se puede consultar por el modelo.
+Star Wars, naves y vehículos.
 ## 2. Manual tecnico para desarrolladores.
 
 #### 2.1. Main.java
 En la clase Main tenemos todo lo relacionado con la llamada a ventanas y con el inicio de sesión. 
 
-##### 2.1.1 login()
-El método login() es llamado cuando el botón es pulsado y comprueba que los datos introducidos sean los correctos. Si es
+##### 2.1.1 btnEvent()
+El método btnEvent() es llamado cuando el botón es pulsado y dependiendo de la ventana que se muestre hara diferentes tareas.
+1.Si estamos en la ventana de inicio de sesión comprueba que los datos introducidos sean los correctos. Si es
 así llama a la ventana principal, donde ya podremos hacer nuestras consultas.
-
+2.Si estamos en la ventana de registro introduce en la base de datos el nuevo usuario
+3.Si estamos en la ventana de cambio de contraseña, se cambiara la contraseña del usuario introducido. No es un metodo seguro
+para cambiar contraseñas, en futuras versiones se mandara un correo a la cuenta de correo introducida al crear la cuenta para 
+verificar que la persona que cambia la contraseña es el usuario de la cuenta.
 #### 2.2. MainController.java
 Es el controlador principal, el cual redirecciona a los métodos necesarios para la consulta que se está haciendo en el
 momento.
@@ -23,20 +27,13 @@ archivos.
 ##### 2.3.1 set*().
 '*' El asterisco indica la clase correspondiente a cada controlador. Por ejemplo, en la clase CharacterController seria
 setCharacter().      
-Con este método obtenemos de la API todas las coincidencias con la consulta que se haya hecho.
-##### 2.3.2 changeHomeworld().
-El método changeHomeworld() no está presente en todos los controladores, pero sirve para obtener el nombre del planeta o
-planetas necesarios para la tabla. A partir de una URL obtenemos el nombre del planeta.
+Con este método obtenemos de la base de datos todas las coincidencias con la consulta que se haya hecho.
 ##### 2.3.4 fillTable().
 Este método rellena la tabla con los datos.
-##### 2.3.5 saveJson(), saveXML(), saveBin(), saveTxt().
-Gracias a estos métodos obtenemos el fichero correspondiente de la consulta que quiere guardar el usuario.
-##### 2.3.6 sortList().
-Este método ordena los resultados de setCharacters() en orden alfabético. Excepto con las películas que es por orden
-numérico
+##### 2.3.5 saveJson()
+Con este método obtenemos el fichero JSON de la consulta que quiere guardar el usuario.
 ## 3. Manual de usuario.
-La aplicación consiste en una ventana de inicio de sesión en la que únicamente le tendremos que pasar usuario y
-contraseña(Usuario:admin, Contraseña:renaido).
+La aplicación consiste en una ventana de inicio de sesión en la que podremos registrar una nueva cuenta, cambiar la contraseña e iniciar sesión.
 <center> 
 
 ![img_2.png](readmeImages/img_2.png)
@@ -89,10 +86,10 @@ formateado en CSV.
 ## 4. Reparto de tareas.
 Nos hemos repartido las tareas asignándonos puntos necesarios del proyecto en pequeñas partes
 e ir poco a poco armando todo el proyecto.
-* Adrián: Llamada a la API para obtener los datos, guardado de archivos, ordenación de los resultados de la búsqueda y
-  ventana de login y su lógica.
-* José: Rellenado de la table, cambio de la URL del planeta natal por el nombre real, creación del MainController y
-  cifrado de la contraseña de inicio de sesión.
+* Adrián: Creacion de la base de datos para el inicio de sesion, inserciónes de datos en la base de datos principal del 
+* proyecto y creacion de varias tablas, ventanas y codigo necesarios para el inicio de sesion, registro de cuentas y cambio de
+*contraseña.
+* José: Parte de la base de datos principal, adaptación del codigo para conectar a la base de datos en vez de a la API e.
 ## 5. Extras
 * Ordenación de resultados de las consultas y almacenaje de los datos
 * Control de errores (errores de ficheros, consultas sin resultados...)
